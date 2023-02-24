@@ -3,11 +3,11 @@ Webserver Flask API project for CoderAcademy course.
 
 # R1 Identification of the problem you are trying to solve by building this particular app.
 
-TODO answer here
+Amateur horticulturalists are faced with a huge knowledge area they need to track - all the varieties of plants they can keep. How much water they need, how often, what sort of soil they need, their climate conditions, and so on. And tracking the plants you actually own can be just as complicated.
 
 # R2 	Why is it a problem that needs solving?
 
-TODO answer here
+My API will allow a user to create their own virtual Garden. They can register an account using their email. They can then create a new Garden, and begin adding plants to it. This Garden will track the plants inside it, and track what plants have been watered recently, what have yet to be watered, and if any are overdue for their next watering. Creating this virtual representation of a garden means users can be in more control of their hobby than ever.
 
 # R3 Why have you chosen this database system. What are the drawbacks compared to others?
 
