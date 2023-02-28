@@ -31,19 +31,19 @@ TODO answer here
 
 # R8 	Describe your projects models in terms of the relationships they have with each other
 
-There are four main models in this project. Users, Gardens, Plants, and the table that connects a Garden with the Plants inside it (called GardenPlants).
-
-Users are how we represent the user in the app. The primary key is a surrogate key, an autoincrementing integer ID. They have a `full_name` field to store their personal information, which might be important for later expansion of the API or a frontend. They have an email for communicating with users, and a field called `expert` which determines whether they're able to make changes to the Plants database.
-
-A User can only have one Garden. Each Garden has a connection to the user that created it, and a `creation_date` to keep track of when it was created, and a surrogate primary key as used throughout the application.
-
-Plants are the main data being stored in the API, along with the Gardens and their connection to them. The Plant model contains a field of `name`, which represents the scientific name of the plant, and an array of strings called `common_name`. Arrays are a Postgres feature and allow us to store multiple strings in a singular field. Both `cycle` and `watering` are enums, another Postgres feature. Enums are a static list of values that ensures that any data we insert must be drawn from this list. This has the effect of limiting duplication and enforcing specific values **at the database level**, rather than requiring backend logic. The primary key is the ubiquitous surrogate key.
-
-GardenPlants is the final model, which connects the Garden a User has created with Plants. Thus we have two foreign keys, one from Gardens, one from Plants. The `last_watered` field keeps track of when a user has last watered a particular plant. Finally, the surrogate key of `garden_plant_id`.
+TODO answer at end of project
 
 # R9 	Discuss the database relations to be implemented in your application
 
-The models outlined above are essentially the database relations. We have four tables in the application - *users*, *gardens*, *garden_plants*, and *plants*. Each of those tables has columns within it that correspond to the fields mentioned above.
+There are four main relations in this project. Users, Gardens, Plants, and the table that connects a Garden with the Plants inside it (called GardenPlants).
+
+Users are how we represent the user in the app. The primary key is a surrogate key, an autoincrementing integer ID. They have a `full_name` field to store their personal information, which might be important for later expansion of the API or a frontend. They have an email for communicating with users, and a field called `expert` which determines whether they're able to make changes to the Plants database.
+
+A User can only have one Garden. Each Garden has a connection to the user that created it, and a `creation_date` to keep track of when it was created, a `garden_type` which represents what sort of Garden the user has (eg. "indoor", "outdoor" or even "terrarium") and a surrogate primary key.
+
+Plants are the main data being stored in the API, along with the Gardens and their connection to them. The Plant model contains a field of `name`, which represents the scientific name of the plant, and an array of strings called `common_name`. Arrays are a Postgres feature and allow us to store multiple strings in a singular field. Both `cycle` and `watering` are enums, another Postgres feature. Enums are a static list of values that ensures that any data we insert must be drawn from this list. This has the effect of limiting duplication and enforcing specific values **at the database level**, rather than requiring backend logic. The primary key is the ubiquitous surrogate key.
+
+GardenPlants is the final model, which connects the Garden a User has created with Plants. Thus we have two foreign keys, one from Gardens, one from Plants. The `last_watered` field keeps track of when a user has last watered a particular plant. The `placement` field tracks the sun conditions the plant is placed in (full shade, full sun, or a mix). `Healthiness` is an integer from 1 to 10 that tracks exactly that — how well a plant is doing (10 being peak condition, 1 being on its last legs). Finally, the surrogate key of `garden_plant_id`.
 
 # R10 	Describe the way tasks are allocated and tracked in your project
 
