@@ -1,6 +1,10 @@
 # coder-t2a2
 Webserver Flask API project for CoderAcademy course.
 
+[Github Repo](https://github.com/willr42/coder-t2a2).
+
+[Project Management Board](https://trello.com/b/C1nWwPAe/t2a2-flask-api).
+
 # R1 Identification of the problem you are trying to solve by building this particular app.
 
 Amateur horticulturalists are faced with a huge knowledge area they need to track - all the varieties of plants they can keep. How much water they need, how often, what sort of soil they need, their climate conditions, and so on. And tracking the plants you actually own can be just as complicated.
