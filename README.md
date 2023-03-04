@@ -34,7 +34,18 @@ Finally, some people have found that Postgres can be more resource-intensive tha
 
 # R4 Identify and discuss the key functionalities and benefits of an ORM
 
-TODO answer here
+An ORM is an Object-Relational-Mapper. Without an ORM, we'd be forced to;
+
+- Craft our own hand-written SQL queries for every single endpoint in our application
+- Handwrite how we load data from the database into the application, and vice-versa
+
+An ORM _abstracts_ this functionality. We write objects in an OOP style in our source code. The ORM translates those code artifacts into the relations in the database - hence the "object-relational-mapper" acronym.
+
+The key benefits of an ORM are mainly the fact that we move away from writing SQL, which is like writing another additional language as well as our backend. Additionally, if you use a popular, well-maintained ORM, the security is likely to be better than handcrafted SQL queries - the authors of such libraries are experts in SQL and avoiding SQL injection attacks. If the ORM is properly decoupled from the database, it enables us to quickly and easily change out the database as needed, without the need to change anything in the application itself.
+
+An ORM lets us use the OOP conventions we use in our regular programming to interact with the database as well. Because we're interacting with our code, not writing SQL, we can use the features of our IDE to validate these classes and fields.
+
+To turn the tables for a little, though, some developers swear off ORMs as an unneeded overhead, and instead reach for "query builders". These give you the benefit of stepping away from writing SQL yourself, but without going towards a full object model as used by ORMs.
 
 # R5 Document all endpoints for your API
 
