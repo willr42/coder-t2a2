@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# VS Code workspace
+coder-t2a2.code-workspace
