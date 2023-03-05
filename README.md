@@ -57,7 +57,25 @@ TODO answer here
 
 # R7 Detail any third party services that your app will use
 
-TODO answer here
+In terms of general third party services;
+
+I intend to use Perenual's [Plant API](https://perenual.com/docs/api) to generate some initial seed data for my database based on the most popular houseplants in Australia. Perenual's API is still fairly limited but I hope to retrieve the data necessary for this project.
+
+The source code is hosted on Github, and I use Trello for project management.
+
+## Third-party Libraries
+
+As a Flask application, my app will draw on various third-party libraries to function. Here are the top-level dependencies (note, some of these may have their own internal dependencies).
+
+- Black for code formatting
+- Flask, as the web server
+- Flask-Bcrypt, for password encryption
+- Flask-JWT-Extended, for JWT generation & management
+- Flask-Marshmallow, for serializing Python to JSON
+- Flask-SQLAlchemy, a wrapper library for SQLAlchemy
+- psycopg2, a Python database adapter for Postgres
+- python-dotenv, enabling me to use environmental variables in Flask config
+- SQLAlchemy, an ORM
 
 # R8 Describe your projects models in terms of the relationships they have with each other
 
