@@ -1,1 +1,1 @@
-FLASK_APP=main.py
+FLASK_APP="main:create_app"
