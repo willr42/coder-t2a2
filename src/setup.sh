@@ -21,7 +21,8 @@ if ! [ -x "$(command -v psql)" ]; then
 fi
 
 echo "Creating database and user..."
-psql -c "SELECT 1 FROM pg_user WHERE usename = 'plantadmin'" | grep -q 1 || psql -c "CREATE USER plantadmin"
+psql -c "SELECT 1 FROM pg_user WHERE usename = 'plantadmin'" | grep -q 1 || psql -c "CREATE USER plantadmin WITH PASSWORD 'plants'"
+echo "User created succesfully."
 echo "SELECT 'CREATE DATABASE plantapi' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'plantapi')\gexec" | psql
 echo "User and database created successfully."
 silent popd
