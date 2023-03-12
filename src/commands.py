@@ -3,6 +3,7 @@ from flask.cli import AppGroup
 
 from main import db
 from models.gardens import Garden
+from models.gardenplants import GardenPlant
 from models.plants import Plant
 from models.users import User
 

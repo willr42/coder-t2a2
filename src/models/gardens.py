@@ -12,3 +12,5 @@ class Garden(db.Model):
         db.Integer, db.ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False
     )
     user = db.relationship("User", back_populates="garden")
+
+    garden_plants = db.relationship("GardenPlant", back_populates="garden")
