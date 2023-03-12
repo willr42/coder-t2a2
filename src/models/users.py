@@ -8,3 +8,5 @@ class User(db.Model):
     full_name = db.Column(db.String(), nullable=False)
     email = db.Column(db.String(), nullable=False, unique=True)
     expert = db.Column(db.Boolean, nullable=False, default=False)
+
+    garden = db.relationship("Garden", back_populates="user")
