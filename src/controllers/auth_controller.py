@@ -53,3 +53,22 @@ def register_user():
     )
 
     return {"token": access_token}
+
+
+@auth.route("/login", methods=["POST"])
+def login_user():
+    user_fields = validate_user_req(request)
+
+    user = db.session.execute(
+        db.select(User).filter_by(email=user_fields["email"])
+    ).scalar_one()
+
+    if not user or not bcrypt.check_password_hash(
+        pw_hash=user.password, password=user_fields["password"]
+    ):
+        return abort(401, description="Username or password incorrect")
+
+    expiry = timedelta(days=1)
+    access_token = create_access_token(identity=str(user.user_id), expires_delta=expiry)
+
+    return {"token": access_token}
