@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
@@ -19,6 +19,7 @@ def create_app():
     jwt.init_app(app)
 
     from commands import db_commands
+
     app.cli.add_command(db_commands)
 
     from controllers import registerable_controllers
@@ -26,4 +27,9 @@ def create_app():
     for controller in registerable_controllers:
         app.register_blueprint(controller)
 
+    app.register_error_handler(400, handle_400_error)
     return app
+
+
+def handle_400_error(e):
+    return jsonify(code=str(e.code), error=str(e.description)), 400
