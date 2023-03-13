@@ -7,7 +7,7 @@ class UserSchema(ma.SQLAlchemySchema):
         model = User
 
     user_id = ma.auto_field()
-    full_name = ma.auto_field()
+    full_name = ma.auto_field(required=False)
     email = ma.auto_field(required=True)
     # NOTE: May need to remove these requireds later
     password = ma.auto_field(required=True)
