@@ -32,7 +32,7 @@ def register_user():
 
     existing_user = db.session.execute(
         db.select(User).filter_by(email=user_fields["email"])
-    ).first()
+    ).scalar_one()
 
     if existing_user:
         # Don't want to allow malicious actors to enumerate emails here
