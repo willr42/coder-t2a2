@@ -13,11 +13,14 @@ auth = Blueprint("auth", __name__, url_prefix="/auth")
 
 @auth.route("/register", methods=["POST"])
 def register_user():
-    user_fields = user_schema.load(request.json)
+    try:
+        user_fields = user_schema.load(request.json)
+    except ValidationError as e:
+        abort(400, description=e)
 
     existing_user = db.session.execute(
         db.select(User).filter_by(email=user_fields["email"])
-    ).scalar_one()
+    ).scalar()
 
     if existing_user:
         # Don't want to allow malicious actors to enumerate emails here
@@ -46,7 +49,7 @@ def login_user():
 
     user = db.session.execute(
         db.select(User).filter_by(email=user_fields["email"])
-    ).scalar_one()
+    ).scalar()
 
     if not user or not bcrypt.check_password_hash(
         pw_hash=user.password, password=user_fields["password"]
