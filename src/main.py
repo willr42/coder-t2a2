@@ -27,9 +27,9 @@ def create_app():
     for controller in registerable_controllers:
         app.register_blueprint(controller)
 
-    app.register_error_handler(400, handle_400_error)
+    from errors import error_handlers
+
+    for handler in error_handlers:
+        app.register_error_handler(handler.code, handler.handler_function)
+
     return app
-
-
-def handle_400_error(e):
-    return jsonify(code=str(e.code), error=str(e.description)), 400
