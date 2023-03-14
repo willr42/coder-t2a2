@@ -2,15 +2,11 @@ from main import ma
 from models import User
 
 
-class UserSchema(ma.SQLAlchemySchema):
+class UserSchema(ma.Schema):
     class Meta:
-        model = User
+        fields = ("user_id", "full_name", "email", "password")
 
-    user_id = ma.auto_field()
-    full_name = ma.auto_field(required=False)
-    email = ma.auto_field(required=True)
-    # NOTE: May need to remove these requireds later
-    password = ma.auto_field(required=True)
+    email = ma.Email()
 
 
 user_schema = UserSchema()
