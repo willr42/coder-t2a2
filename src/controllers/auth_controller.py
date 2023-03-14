@@ -11,24 +11,9 @@ from schemas.user_schema import user_schema
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 
 
-def validate_user_req(request):
-    """Validate a user request is appropriate format and contains required fields."""
-    try:
-        user_fields = user_schema.load(request.json)
-    except ValidationError:
-        return abort(400, description="Your request is missing a required field")
-
-    error = user_schema.validate(user_fields)
-
-    if error:
-        return error
-
-    return user_fields
-
-
 @auth.route("/register", methods=["POST"])
 def register_user():
-    user_fields = validate_user_req(request)
+    user_fields = user_schema.load(request.json)
 
     existing_user = db.session.execute(
         db.select(User).filter_by(email=user_fields["email"])
@@ -57,7 +42,7 @@ def register_user():
 
 @auth.route("/login", methods=["POST"])
 def login_user():
-    user_fields = validate_user_req(request)
+    user_fields = user_schema.load(request.json)
 
     user = db.session.execute(
         db.select(User).filter_by(email=user_fields["email"])
