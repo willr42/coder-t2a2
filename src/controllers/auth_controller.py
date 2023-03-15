@@ -55,7 +55,10 @@ def login_user():
     Returns:
         token: JWT
     """
-    user_fields = user_schema.load(request.json)
+    try:
+        user_fields = user_schema.load(request.json)
+    except ValidationError as e:
+        abort(400, description=e)
 
     user = db.session.execute(
         db.select(User).filter_by(email=user_fields["email"])
