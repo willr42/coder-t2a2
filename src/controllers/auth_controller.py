@@ -5,14 +5,19 @@ from flask_jwt_extended import create_access_token
 from marshmallow.exceptions import ValidationError
 
 from main import bcrypt, db
-from models.users import User
-from schemas.user_schema import user_schema
+from models import User
+from schemas import user_schema
 
-auth = Blueprint("auth", __name__, url_prefix="/auth")
+auth_blueprint = Blueprint("auth", __name__, url_prefix="/auth")
 
 
-@auth.route("/register", methods=["POST"])
+@auth_blueprint.route("/register", methods=["POST"])
 def register_user():
+    """Registers a new user.
+
+    Returns:
+        _token_: _JWT_
+    """
     try:
         user_fields = user_schema.load(request.json)
     except ValidationError as e:
@@ -43,8 +48,13 @@ def register_user():
     return {"token": access_token}
 
 
-@auth.route("/login", methods=["POST"])
+@auth_blueprint.route("/login", methods=["POST"])
 def login_user():
+    """Logs an existing user in.
+
+    Returns:
+        token: JWT
+    """
     user_fields = user_schema.load(request.json)
 
     user = db.session.execute(
