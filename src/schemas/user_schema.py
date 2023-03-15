@@ -1,5 +1,4 @@
 from main import ma
-from models import User
 
 
 class UserSchema(ma.Schema):
@@ -7,6 +6,7 @@ class UserSchema(ma.Schema):
         fields = ("user_id", "full_name", "email", "password")
 
     email = ma.Email()
+    password = ma.String(load_only=True)
 
 
 user_schema = UserSchema()

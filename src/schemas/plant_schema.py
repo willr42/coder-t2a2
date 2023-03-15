@@ -1,5 +1,4 @@
 from main import ma
-from models import Plant
 from models.plants import Cycle, Watering
 
 
