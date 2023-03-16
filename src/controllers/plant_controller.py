@@ -1,6 +1,7 @@
 import json
 
 from flask import Blueprint, Response, abort, jsonify, request
+from flask_jwt_extended import get_jwt, jwt_required
 from marshmallow import ValidationError
 
 from main import db
@@ -18,7 +19,13 @@ def get_plants():
 
 
 @plant_blueprint.post("/")
+@jwt_required()
 def add_plant():
+    jwt_claims = get_jwt()
+
+    if not jwt_claims.get("expert", False):
+        abort(401)
+
     try:
         new_plant_fields = plant_schema.load(request.json)
     except ValidationError as e:
