@@ -40,8 +40,14 @@ def add_plant():
         abort(res)
 
     new_plant = Plant()
-    for field in new_plant_fields:
-        setattr(new_plant, field, new_plant_fields[field])
+    new_plant.name = new_plant_fields["name"].lower()
+    name_list = []
+    for item in new_plant_fields["common_name"]:
+        name_list.append(item.lower())
+
+    new_plant.common_name = name_list
+    new_plant.watering = new_plant_fields["watering"]
+    new_plant.cycle = new_plant_fields["cycle"]
 
     db.session.add(new_plant)
     db.session.commit()
