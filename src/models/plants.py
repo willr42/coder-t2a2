@@ -1,6 +1,8 @@
-from main import db
-from sqlalchemy.dialects.postgresql import ARRAY
 import enum
+
+from sqlalchemy.dialects.postgresql import ARRAY
+
+from main import db
 
 # https://stackoverflow.com/a/61689730
 
@@ -30,4 +32,6 @@ class Plant(db.Model):
     cycle = db.Column(db.Enum(Cycle), nullable=False)
     watering = db.Column(db.Enum(Watering), nullable=False)
 
-    garden_plant = db.relationship("GardenPlant", back_populates="plant")
+    garden_plant = db.relationship(
+        "GardenPlant", back_populates="plant", cascade="all, delete"
+    )
