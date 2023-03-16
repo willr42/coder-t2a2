@@ -60,3 +60,22 @@ def add_plant():
     db.session.commit()
 
     return plant_schema.dump(new_plant)
+
+
+@plant_blueprint.delete("/<int:plant_id>")
+@jwt_required()
+def delete_plant(plant_id):
+    jwt_claims = get_jwt()
+
+    if not jwt_claims.get("expert", False):
+        abort(401)
+
+    existing_plant = db.session.get(Plant, plant_id)
+
+    if not existing_plant:
+        abort(404, description="plant_id does not exist")
+
+    db.session.delete(existing_plant)
+    db.session.commit()
+
+    return plant_schema.dump(existing_plant), 204
