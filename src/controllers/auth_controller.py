@@ -42,7 +42,9 @@ def register_user():
 
     expiry = timedelta(days=1)
     access_token = create_access_token(
-        identity=str(new_user.user_id), expires_delta=expiry
+        identity=str(new_user.user_id),
+        expires_delta=expiry,
+        additional_claims={"expert": new_user.expert},
     )
 
     return {"token": access_token}
@@ -70,6 +72,10 @@ def login_user():
         return abort(401, description="Username or password incorrect")
 
     expiry = timedelta(days=1)
-    access_token = create_access_token(identity=str(user.user_id), expires_delta=expiry)
+    access_token = create_access_token(
+        identity=str(user.user_id),
+        expires_delta=expiry,
+        additional_claims={"expert": user.expert},
+    )
 
     return {"token": access_token}
