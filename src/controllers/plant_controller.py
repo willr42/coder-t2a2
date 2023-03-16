@@ -79,3 +79,52 @@ def delete_plant(plant_id):
     db.session.commit()
 
     return plant_schema.dump(existing_plant), 204
+
+
+@plant_blueprint.put("/<int:plant_id>")
+@jwt_required()
+def update_plant(plant_id):
+    jwt_claims = get_jwt()
+
+    if not jwt_claims.get("expert", False):
+        abort(401)
+
+    try:
+        # request.json.update({"plant_id": plant_id})
+        fields_to_update = plant_schema.load(
+            request.json, partial=("name", "common_name", "cycle", "watering")
+        )
+    except ValidationError as e:
+        abort(400, description=e)
+
+    existing_plant = db.session.get(Plant, plant_id)
+
+    if not existing_plant:
+        abort(404, description="plant_id does not exist")
+
+    if fields_to_update["name"]:
+        clashing_name = db.session.execute(
+            db.select(Plant).filter_by(name=fields_to_update["name"])
+        ).scalar()
+
+    # TODO: can we make this into a handler rather than in-line here?
+    if existing_plant:
+        res = Response(
+            status=409,
+            mimetype="application/json",
+            response=json.dumps(
+                {
+                    "error": "Plant by that name already exists",
+                    "resource": existing_plant.plant_id,
+                }
+            ),
+        )
+        abort(res)
+
+    for field in fields_to_update:
+        setattr(existing_plant, field, fields_to_update[field])
+
+        # existing_plant
+    db.session.commit()
+
+    return plant_schema.dump(existing_plant), 200
