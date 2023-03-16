@@ -26,7 +26,7 @@ def add_plant():
 
     existing_plant = db.session.execute(
         db.select(Plant).filter_by(name=new_plant_fields["name"])
-    ).scalar_one()
+    ).scalar()
 
     # TODO: can we make this into a handler rather than in-line here?
     if existing_plant:
