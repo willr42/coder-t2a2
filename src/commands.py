@@ -1,9 +1,9 @@
 import click
 from flask.cli import AppGroup
 
-from main import db, bcrypt
-from models.gardens import Garden
+from main import bcrypt, db
 from models.gardenplants import GardenPlant
+from models.gardens import Garden
 from models.plants import Plant
 from models.users import User
 
@@ -26,7 +26,7 @@ def seed_db():
     user1.password = bcrypt.generate_password_hash("expert").decode("utf-8")
 
     user2 = User(full_name="First Test User", email="test_user@email.com", expert=False)
-    user2.password = bcrypt.generate_password_hash("user").decode("utf-8")
+    user2.password = bcrypt.generate_password_hash("usseerr").decode("utf-8")
 
     db.session.add_all([user1, user2])
     db.session.commit()
