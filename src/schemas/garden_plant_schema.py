@@ -9,6 +9,7 @@ class GardenPlantSchema(ma.Schema):
             "placement",
             "healthiness",
             "plant",
+            "garden_id",
         )
 
     last_watered = ma.Date()

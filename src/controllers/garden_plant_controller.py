@@ -123,32 +123,34 @@ def update_garden_plant(garden_id, garden_plant_id):
 
     return garden_plant_schema_no_id.dump(existing_garden_plant), 200
 
-    if not existing_plant:
-        abort(404, description="plant_id does not exist")
 
-    if fields_to_update["name"]:
-        clashing_name = db.session.execute(
-            db.select(Plant).filter_by(name=fields_to_update["name"])
-        ).scalar()
+@garden_plant_blueprint.delete("/<int:garden_id>/<int:garden_plant_id>")
+@jwt_required()
+def delete_garden_plant(garden_id, garden_plant_id):
+    """Deletes a particular plant from a particular garden
 
-    # TODO: can we make this into a handler rather than in-line here?
-    if existing_plant:
-        res = Response(
-            status=409,
-            mimetype="application/json",
-            response=json.dumps(
-                {
-                    "error": "Plant by that name already exists",
-                    "resource": existing_plant.plant_id,
-                }
-            ),
-        )
-        abort(res)
+    Returns:
+        JSON
+    """
+    # Check they're getting their own Garden
+    garden = db.session.get(Garden, garden_id)
 
-    for field in fields_to_update:
-        setattr(existing_plant, field, fields_to_update[field])
+    if not garden:
+        abort(404, description="garden_id does not exist")
 
-        # existing_plant
+    if garden.user_id != current_user.user_id:
+        abort(401)
+
+    garden_plant = db.session.execute(
+        db.select(GardenPlant)
+        .filter_by(garden_plant_id=garden_plant_id)
+        .filter_by(garden_id=garden_id)
+    ).scalar()
+
+    if not garden_plant:
+        abort(404, description="garden_plant does not exist in this garden")
+
+    db.session.delete(garden_plant)
     db.session.commit()
 
-    return plant_schema.dump(existing_plant), 200
+    return Response(status=204)

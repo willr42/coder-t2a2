@@ -12,11 +12,11 @@ class GardenPlant(db.Model):
 
     garden_id = db.Column(
         db.Integer,
-        db.ForeignKey("gardens.garden_id", ondelete="CASCADE"),
-        nullable=False,
+        db.ForeignKey("gardens.garden_id"),
     )
     garden = db.relationship(
-        "Garden", back_populates="garden_plants", cascade="all, delete"
+        "Garden",
+        back_populates="garden_plants",
     )
 
     plant_id = db.Column(
