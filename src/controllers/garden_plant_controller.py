@@ -56,11 +56,13 @@ def get_garden_plant(garden_id, garden_plant_id):
     # Find the plant
 
     garden_plant = db.session.execute(
-        db.select(GardenPlant).filter_by(garden_plant_id=garden_plant_id)
+        db.select(GardenPlant).filter_by(
+            garden_plant_id=garden_plant_id, garden_id=garden_id
+        )
     ).scalar()
 
     if not garden_plant:
-        abort(404, description="garden_plant_id does not exist")
+        abort(404, description="garden_plant does not exist in this garden")
 
     return garden_plant_schema_no_id.dump(garden_plant)
 
@@ -83,20 +85,43 @@ def update_garden_plant(garden_id, garden_plant_id):
         abort(401)
 
     try:
-        # request.json.update({"plant_id": plant_id})
         fields_to_update = garden_plant_schema.load(
             request.json,
             partial=(
+                "garden_plant_id",
                 "garden_id",
                 "last_watered",
                 "placement",
                 "healthiness",
+                "plant",
             ),
         )
     except ValidationError as e:
         abort(400, description=e)
 
-    existing_plant = db.session.get(Plant, plant_id)
+    existing_garden_plant = db.session.execute(
+        db.select(GardenPlant)
+        .filter_by(garden_plant_id=garden_plant_id)
+        .filter_by(garden_id=garden_id)
+    ).scalar()
+
+    if not existing_garden_plant:
+        abort(404, description="garden_plant does not exist in this garden")
+
+    for field in fields_to_update:
+        # Users can't change these fields
+        if field == "plant" or field == "garden_plant_id":
+            continue
+        elif field == "garden_id":
+            new_garden = db.session.get(Garden, fields_to_update[field])
+            if new_garden.user_id != current_user.user_id:
+                abort(401)
+
+        setattr(existing_garden_plant, field, fields_to_update[field])
+
+    db.session.commit()
+
+    return garden_plant_schema_no_id.dump(existing_garden_plant), 200
 
     if not existing_plant:
         abort(404, description="plant_id does not exist")
