@@ -12,4 +12,5 @@ Handler = namedtuple("Handler", "code handler_function")
 error_handlers = [
     Handler(400, handle_generic_error),
     Handler(401, handle_generic_error),
+    Handler(404, handle_generic_error),
 ]
