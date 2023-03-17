@@ -43,3 +43,17 @@ def create_garden():
     db.session.commit()
 
     return garden_schema.dump(new_garden)
+
+
+@garden_blueprint.delete("/<int:garden_id>")
+@jwt_required()
+def delete_garden(garden_id):
+    existing_garden = db.session.get(Garden, garden_id)
+
+    if not existing_garden:
+        abort(404, description="garden_id does not exist")
+
+    db.session.delete(existing_garden)
+    db.session.commit()
+
+    return garden_schema.dump(existing_garden), 204
