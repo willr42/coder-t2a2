@@ -1,11 +1,9 @@
-import json
-
-from flask import Blueprint, Response, abort, jsonify, request
-from flask_jwt_extended import current_user, get_jwt, jwt_required
+from flask import Blueprint, Response, abort, request
+from flask_jwt_extended import current_user, jwt_required
 from marshmallow import ValidationError
 
 from main import db
-from models import Garden, GardenPlant, Plant
+from models import Garden, GardenPlant
 from schemas import garden_plant_schema, garden_plant_schema_no_id, garden_plants_schema
 
 garden_plant_blueprint = Blueprint(
