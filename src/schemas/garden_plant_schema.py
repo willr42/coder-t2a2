@@ -8,7 +8,6 @@ class GardenPlantSchema(ma.Schema):
             "last_watered",
             "placement",
             "healthiness",
-            "garden_id",
             "plant",
         )
 
@@ -17,4 +16,5 @@ class GardenPlantSchema(ma.Schema):
 
 
 garden_plant_schema = GardenPlantSchema()
+garden_plant_schema_no_id = GardenPlantSchema(exclude=("garden_plant_id",))
 garden_plants_schema = GardenPlantSchema(many=True)
