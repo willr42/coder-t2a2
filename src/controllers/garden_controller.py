@@ -1,6 +1,6 @@
-import json
+import datetime
 
-from flask import Blueprint, Response, abort, request
+from flask import Blueprint, abort, request
 from flask_jwt_extended import current_user, get_jwt, jwt_required
 from marshmallow import ValidationError
 
@@ -24,3 +24,22 @@ def get_gardens():
         abort(404, description="user has no gardens")
 
     return gardens_schema.dump(gardens), 200
+
+
+@garden_blueprint.post("/")
+@jwt_required()
+def create_garden():
+    try:
+        garden_fields = garden_schema.load(request.json)
+    except ValidationError as e:
+        abort(400, description=e)
+
+    new_garden = Garden()
+    new_garden.creation_date = datetime.date.today().isoformat()
+    new_garden.garden_type = garden_fields["garden_type"]
+    new_garden.user_id = current_user.user_id
+
+    db.session.add(new_garden)
+    db.session.commit()
+
+    return garden_schema.dump(new_garden)
