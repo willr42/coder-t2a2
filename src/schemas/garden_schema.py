@@ -6,6 +6,7 @@ class GardenSchema(ma.Schema):
         fields = ("garden_id", "creation_date", "garden_type", "user_id")
 
     creation_date = ma.Date()
+    garden_type = ma.String(required=True)
 
 
 garden_schema = GardenSchema()
