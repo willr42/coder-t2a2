@@ -18,6 +18,16 @@ def get_plants():
     return plants_schema.dump(plant_list)
 
 
+@plant_blueprint.get("/<int:plant_id>")
+def get_plant(plant_id):
+    plant = db.session.get(Plant, plant_id)
+
+    if not plant:
+        abort(404, description="plant_id does not exist")
+
+    return plant_schema.dump(plant), 200
+
+
 @plant_blueprint.post("/")
 @jwt_required()
 def add_plant():
