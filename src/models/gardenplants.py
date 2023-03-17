@@ -15,7 +15,9 @@ class GardenPlant(db.Model):
         db.ForeignKey("gardens.garden_id", ondelete="CASCADE"),
         nullable=False,
     )
-    garden = db.relationship("Garden", back_populates="garden_plants")
+    garden = db.relationship(
+        "Garden", back_populates="garden_plants", cascade="all, delete"
+    )
 
     plant_id = db.Column(
         db.Integer, db.ForeignKey("plants.plant_id", ondelete="CASCADE"), nullable=False

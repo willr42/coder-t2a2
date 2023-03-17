@@ -53,6 +53,9 @@ def delete_garden(garden_id):
     if not existing_garden:
         abort(404, description="garden_id does not exist")
 
+    if current_user.user_id != existing_garden.user_id:
+        abort(401)
+
     db.session.delete(existing_garden)
     db.session.commit()
 
