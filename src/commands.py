@@ -28,7 +28,12 @@ def seed_db():
     user2 = User(full_name="First Test User", email="test_user@email.com", expert=False)
     user2.password = bcrypt.generate_password_hash("usseerr").decode("utf-8")
 
-    db.session.add_all([user1, user2])
+    user3 = User(
+        full_name="Second Test User", email="test_user_2@email.com", expert=False
+    )
+    user3.password = bcrypt.generate_password_hash("usseerr").decode("utf-8")
+
+    db.session.add_all([user1, user2, user3])
     db.session.commit()
 
     expert_garden1 = Garden(creation_date="2023-01-01", garden_type="inside", user_id=1)
@@ -89,6 +94,9 @@ def seed_db():
     )
     db.session.add_all([garden_plant_1, garden_plant_2, garden_plant_3, garden_plant_4])
     db.session.commit()
+    click.echo(
+        click.style("🌱 All tables seeded. 🌱", fg="green", bold=True, italic=True)
+    )
 
 
 @db_commands.command("drop")
