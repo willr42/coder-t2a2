@@ -1,7 +1,7 @@
 import datetime
 
 from flask import Blueprint, abort, request
-from flask_jwt_extended import current_user, get_jwt, jwt_required
+from flask_jwt_extended import current_user, jwt_required
 from marshmallow import ValidationError
 
 from main import db

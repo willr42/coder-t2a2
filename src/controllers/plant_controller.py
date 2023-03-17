@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, Response, abort, jsonify, request
+from flask import Blueprint, Response, abort, request
 from flask_jwt_extended import get_jwt, jwt_required
 from marshmallow import ValidationError
 
