@@ -1,4 +1,4 @@
-from main import db
+from main import db, jwt
 
 
 class User(db.Model):
@@ -11,3 +11,9 @@ class User(db.Model):
     expert = db.Column(db.Boolean, nullable=False, default=False)
 
     garden = db.relationship("Garden", back_populates="user")
+
+
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    return User.query.filter_by(user_id=identity).one_or_none()
