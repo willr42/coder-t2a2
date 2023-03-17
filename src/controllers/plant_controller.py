@@ -13,6 +13,11 @@ plant_blueprint = Blueprint("plants", __name__, url_prefix="/plants")
 
 @plant_blueprint.get("/")
 def get_plants():
+    """Gets all plants in the database
+
+    Returns:
+        JSON
+    """
     plant_list = db.session.execute(db.select(Plant)).scalars().all()
 
     return plants_schema.dump(plant_list)
@@ -20,6 +25,11 @@ def get_plants():
 
 @plant_blueprint.get("/<int:plant_id>")
 def get_plant(plant_id):
+    """Gets a plant in the database by id
+
+    Returns:
+        JSON
+    """
     plant = db.session.get(Plant, plant_id)
 
     if not plant:
@@ -31,6 +41,11 @@ def get_plant(plant_id):
 @plant_blueprint.post("/")
 @jwt_required()
 def add_plant():
+    """If a user is an expert, adds a new plant to the database
+
+    Returns:
+        JSON
+    """
     jwt_claims = get_jwt()
 
     if not jwt_claims.get("expert", False):
@@ -75,6 +90,7 @@ def add_plant():
 @plant_blueprint.delete("/<int:plant_id>")
 @jwt_required()
 def delete_plant(plant_id):
+    """If a user is an expert, deletes a plant in the database"""
     jwt_claims = get_jwt()
 
     if not jwt_claims.get("expert", False):
@@ -94,6 +110,11 @@ def delete_plant(plant_id):
 @plant_blueprint.put("/<int:plant_id>")
 @jwt_required()
 def update_plant(plant_id):
+    """If a user is an expert, updates a plant by ID
+
+    Returns:
+        JSON
+    """
     jwt_claims = get_jwt()
 
     if not jwt_claims.get("expert", False):

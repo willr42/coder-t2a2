@@ -14,6 +14,11 @@ garden_blueprint = Blueprint("gardens", __name__, url_prefix="/gardens")
 @garden_blueprint.get("/")
 @jwt_required()
 def get_gardens():
+    """Gets all gardens of the current user's id
+
+    Returns:
+        JSON
+    """
     gardens = (
         db.session.execute(db.select(Garden).filter_by(user_id=current_user.user_id))
         .scalars()
@@ -29,6 +34,11 @@ def get_gardens():
 @garden_blueprint.post("/")
 @jwt_required()
 def create_garden():
+    """Creates a new garden for the given user's id
+
+    Returns:
+        JSON
+    """
     try:
         garden_fields = garden_schema.load(request.json)
     except ValidationError as e:
@@ -48,6 +58,7 @@ def create_garden():
 @garden_blueprint.delete("/<int:garden_id>")
 @jwt_required()
 def delete_garden(garden_id):
+    """Deletes a garden for the given user's id"""
     existing_garden = db.session.get(Garden, garden_id)
 
     if not existing_garden:
