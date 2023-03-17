@@ -152,6 +152,8 @@ def update_plant(plant_id):
         abort(res)
 
     for field in fields_to_update:
+        if field == "plant_id":
+            continue
         setattr(existing_plant, field, fields_to_update[field])
 
         # existing_plant
