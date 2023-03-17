@@ -138,8 +138,7 @@ def update_plant(plant_id):
             db.select(Plant).filter_by(name=fields_to_update["name"])
         ).scalar()
 
-    # TODO: can we make this into a handler rather than in-line here?
-    if existing_plant:
+    if clashing_name:
         res = Response(
             status=409,
             mimetype="application/json",
