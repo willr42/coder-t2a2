@@ -3,10 +3,17 @@ from main import ma
 
 class GardenSchema(ma.Schema):
     class Meta:
-        fields = ("garden_id", "creation_date", "garden_type", "user_id")
+        fields = (
+            "garden_id",
+            "creation_date",
+            "garden_type",
+            "user_id",
+            "garden_plants",
+        )
 
     creation_date = ma.Date()
     garden_type = ma.String(required=True)
+    garden_plants = ma.List(ma.Nested("GardenPlantSchema", only=("garden_plant_id",)))
 
 
 garden_schema = GardenSchema()
