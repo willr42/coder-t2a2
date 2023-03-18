@@ -3,7 +3,7 @@ from flask_jwt_extended import current_user, jwt_required
 from marshmallow import ValidationError
 
 from main import db
-from models import Garden, GardenPlant
+from models import Garden, GardenPlant, Plant
 from schemas import garden_plant_schema, garden_plant_schema_no_id, garden_plants_schema
 
 garden_plant_blueprint = Blueprint(
@@ -65,6 +65,46 @@ def get_garden_plant(garden_id, garden_plant_id):
         abort(404, description="garden_plant does not exist in this garden")
 
     return garden_plant_schema_no_id.dump(garden_plant)
+
+
+@garden_plant_blueprint.post("/<int:garden_id>/")
+@jwt_required()
+def post_garden_plant(garden_id):
+    """Adds a particular plant to a particular garden
+
+    Returns:
+        JSON
+    """
+    # Check they're getting their own Garden
+    garden = db.session.get(Garden, garden_id)
+
+    if not garden:
+        abort(404, description="garden_id does not exist")
+
+    if garden.user_id != current_user.user_id:
+        abort(401)
+
+    try:
+        new_plant_fields = garden_plant_schema_no_id.load(request.json)
+    except ValidationError as e:
+        abort(400, description=e)
+
+    plant_type = db.session.get(Plant, new_plant_fields["plant_id"])
+
+    if not plant_type:
+        abort(404, description="plant id not found")
+
+    new_garden_plant = GardenPlant()
+    new_garden_plant.garden_id = garden.garden_id
+    new_garden_plant.plant_id = plant_type.plant_id
+    new_garden_plant.last_watered = new_plant_fields["last_watered"]
+    new_garden_plant.placement = new_plant_fields["placement"]
+    new_garden_plant.healthiness = new_plant_fields["healthiness"]
+
+    db.session.add(new_garden_plant)
+    db.session.commit()
+
+    return garden_plant_schema.dump(new_garden_plant)
 
 
 @garden_plant_blueprint.put("/<int:garden_id>/<int:garden_plant_id>")
