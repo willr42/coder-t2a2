@@ -8,12 +8,12 @@ class GardenPlantSchema(ma.Schema):
             "last_watered",
             "placement",
             "healthiness",
-            "plant",
             "garden_id",
+            "plant_id",
         )
 
     last_watered = ma.Date()
-    plant = ma.Nested("PlantSchema", only=("plant_id", "name"))
+    plant_id = ma.Integer()
 
 
 garden_plant_schema = GardenPlantSchema()
