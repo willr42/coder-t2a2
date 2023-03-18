@@ -552,7 +552,7 @@ There are four main relations in this project. Users, Gardens, Plants, and the t
 
 Users are how we represent the user in the app. The primary key is a surrogate key, an autoincrementing integer ID. They have a `full_name` field to store their personal information, which might be important for later expansion of the API or a frontend. They have an email for communicating with users, and a field called `expert` which determines whether they're able to make changes to the Plants database.
 
-A User can only have one Garden. Each Garden has a connection to the user that created it, and a `creation_date` to keep track of when it was created, a `garden_type` which represents what sort of Garden the user has (eg. "indoor", "outdoor" or even "terrarium") and a surrogate primary key.
+A User can have many Gardens. Each Garden has a connection to the user that created it, and a `creation_date` to keep track of when it was created, a `garden_type` which represents what sort of Garden the user has (eg. "indoor", "outdoor" or even "terrarium") and a surrogate primary key.
 
 Plants are the main data being stored in the API, along with the Gardens and their connection to them. The Plant model contains a field of `name`, which represents the scientific name of the plant, and an array of strings called `common_name`. Arrays are a Postgres feature and allow us to store multiple strings in a singular field. Both `cycle` and `watering` are enums. This has the effect of limiting duplication and enforcing specific values at the database level. The primary key is the ubiquitous surrogate key.
 
