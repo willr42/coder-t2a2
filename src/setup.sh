@@ -24,6 +24,7 @@ echo "Please enter your Postgres password."
 psql -c "SELECT 1 FROM pg_user WHERE usename = 'plantadmin'" | grep -q 1 || psql -c "CREATE USER plantadmin WITH PASSWORD 'plants'"
 echo "User created succesfully."
 echo "SELECT 'CREATE DATABASE plantapi' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'plantapi')\gexec" | psql
+psql -c "ALTER DATABASE plantapi OWNER TO plantadmin"
 echo "User and database created successfully."
 
 read -p "Postgres port (leave blank for default): " POSTGRES_PORT
