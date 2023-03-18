@@ -1,3 +1,5 @@
+from marshmallow import validate
+
 from main import ma
 
 
@@ -12,7 +14,7 @@ class GardenSchema(ma.Schema):
         )
 
     creation_date = ma.Date()
-    garden_type = ma.String(required=True)
+    garden_type = ma.String(required=True, validate=validate.Length(min=1))
     garden_plants = ma.List(ma.Nested("GardenPlantSchema", only=("garden_plant_id",)))
 
 
