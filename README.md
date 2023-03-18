@@ -445,7 +445,106 @@ As a Flask application, my app will draw on various third-party libraries to fun
 
 # R8 Describe your projects models in terms of the relationships they have with each other
 
-TODO answer at end of project
+My model code ultimately ended up being quite straightforward.
+
+## User
+
+```python
+class User(db.Model):
+    __tablename__ = "users"
+
+    user_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    full_name = db.Column(db.String(), nullable=False)
+    email = db.Column(db.String(), nullable=False, unique=True)
+    password = db.Column(db.String(), nullable=False)
+    expert = db.Column(db.Boolean, nullable=False, default=False)
+
+    garden = db.relationship("Garden", back_populates="user")
+```
+
+This is the User model. Users has a series of fields, and one relationship, to the Garden model. But as it is a one-to-many relationship, the `garden` does not appear in this class - we simply have to include the relationship so SQLAlchemy knows this connection exists.
+
+## Plant
+
+```python
+
+class Cycle(enum.Enum):
+    perennial = "perennial"
+    annual = "annual"
+    biennial = "biennial"
+    biannual = "biannual"
+
+
+# Watering amount required
+class Watering(enum.Enum):
+    frequent = "frequent"
+    average = "average"
+    minimal = "minimal"
+    none = "none"
+
+
+class Plant(db.Model):
+    __tablename__ = "plants"
+
+    plant_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    name = db.Column(db.String(), nullable=False, unique=True)
+    common_name = db.Column(ARRAY(db.String()), nullable=False)
+    cycle = db.Column(db.Enum(Cycle), nullable=False)
+    watering = db.Column(db.Enum(Watering), nullable=False)
+
+    garden_plant = db.relationship(
+        "GardenPlant", back_populates="plant", cascade="all, delete"
+    )
+```
+
+The Plant model is similar. A series of fields, most of which are self-explanatory. The `common_name` uses the previously mentioned Postgres Array type to allow me to store a list of strings in the one field, which makes sense as the data is grouped - it's just a list of the everyday names used to refer to plants. Cycle and Watering use python's `enum` feature, which allows you to create an object with a pre-defined value set, and this translates seamlessly into Postgres' enums.
+
+The relationship here is `garden_plant`. Every GardenPlant row has a plant_id, so it's a one-to-many relationship (there may be many GardenPlants with the one plant_id, but it's always one and only one per row).
+
+## Garden
+
+```python
+class Garden(db.Model):
+    __tablename__ = "gardens"
+
+    garden_id = db.Column(db.Integer, nullable=False, primary_key=True)
+    creation_date = db.Column(db.Date(), nullable=False)
+    garden_type = db.Column(db.String(), nullable=False)
+
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False
+    )
+    user = db.relationship("User", back_populates="garden")
+
+    garden_plants = db.relationship("GardenPlant", back_populates="garden")
+```
+
+The Garden model is where relationships start becoming a bit more complex. Every Garden has an associated User, which is why each row has a `user_id`. When the user is deleted, the associated Gardens must be deleted as well, which is the `ondelete="CASCADE"` you see in the definition line. Every GardenPlant also has its own garden_id, so this relationship definition appears here.
+
+## GardenPlant
+
+```python
+class GardenPlant(db.Model):
+    __tablename__ = "garden_plants"
+
+    garden_plant_id = db.Column(db.Integer, nullable=False, primary_key=True)
+
+    last_watered = db.Column(db.Date, nullable=False)
+    placement = db.Column(db.String(), nullable=False)
+    healthiness = db.Column(db.Integer, nullable=False, default=5)
+
+    garden_id = db.Column(db.Integer,db.ForeignKey("gardens.garden_id", ondelete="CASCADE"),)
+    garden = db.relationship("Garden", back_populates="garden_plants")
+
+    plant_id = db.Column(db.Integer, db.ForeignKey("plants.plant_id", ondelete="CASCADE"), nullable=False)
+    plant = db.relationship("Plant", back_populates="garden_plant",)
+
+
+```
+
+The GardenPlant model is the most complex. Here, we connect all the other models - the User through the Garden, and the Garden and Plants within it. The `garden_id` is a foreign key from the Garden table. When a Garden is deleted, all associated GardenPlants are deleted as well. We define both the column and the relationship, as is typical with SQLAlchemy. I used the newer `back_populates` API rather than `backref` - this just means you must create bi-directional `db.relationship` objects on each Model, that back_populate each other.
+
+When a Plant is deleted, we see a similar cascade to remove all associated GardenPlants - as a null value of a Plant species wouldn't make sense.
 
 # R9 Discuss the database relations to be implemented in your application
 
