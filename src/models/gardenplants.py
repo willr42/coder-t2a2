@@ -23,5 +23,6 @@ class GardenPlant(db.Model):
         db.Integer, db.ForeignKey("plants.plant_id", ondelete="CASCADE"), nullable=False
     )
     plant = db.relationship(
-        "Plant", back_populates="garden_plant", cascade="all, delete"
+        "Plant",
+        back_populates="garden_plant",
     )
