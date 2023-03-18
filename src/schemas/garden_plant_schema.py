@@ -13,6 +13,7 @@ class GardenPlantSchema(ma.Schema):
         )
 
     last_watered = ma.Date()
+    healthiness = ma.Integer(validate=lambda x: x > 0 and x < 11)
     plant_id = ma.Integer()
 
 
