@@ -49,7 +49,171 @@ To turn the tables for a little, though, some developers swear off ORMs as an un
 
 # R5 Document all endpoints for your API
 
-TODO answer here
+## Authentication
+
+`/auth` url prefix.
+
+### POST
+
+<code><b>/auth/register/</b></code> &mdash; registers a new user acccount
+
+#### **Parameters**
+
+None
+
+#### **JSON Body**
+
+| name      | type     | data type | description                      |
+| --------- | -------- | --------- | -------------------------------- |
+| full_name | required | string    | N/A                              |
+| email     | required | string    | Must be unique                   |
+| password  | required | string    | Must be longer than 6 characters |
+
+#### **Responses**
+
+| http code | content-type       | response                     |
+| --------- | ------------------ | ---------------------------- |
+| `200`     | `application/json` | `{"token": "<jwt>"}`         |
+| `400`     | `application/json` | `{"error": "error message"}` |
+
+<code><b>/auth/login/</b></code> &mdash; logins in an existing acccount
+
+#### **Parameters**
+
+None
+
+#### **JSON Body**
+
+| name     | type     | data type | description                      |
+| -------- | -------- | --------- | -------------------------------- |
+| email    | required | string    | Must be unique                   |
+| password | required | string    | Must be longer than 6 characters |
+
+#### **Responses**
+
+| http code | content-type       | response                                      |
+| --------- | ------------------ | --------------------------------------------- |
+| `200`     | `application/json` | `{"token": "<jwt>"}`                          |
+| `401`     | `application/json` | `{"error": "Username or password incorrect"}` |
+
+---
+
+## Plants
+
+`/plants` url prefix.
+
+### GET
+
+<code><b>/plants/</b></code> &mdash; Gets all plants
+
+#### **Parameters**
+
+None
+
+#### **JSON Body**
+
+None
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                 |
+| --------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `200`     | `application/json` | `[{"plant_id": 1,"watering": "minimal","name": "aloe vera","cycle": "perennial","common_name": ["aloe","chinese aloe"]}, <more plants>]` |
+
+<code><b>/plants/{plant_id}</b></code> &mdash; Gets a single plant
+
+#### **Parameters**
+
+| name     | type     | data type | description    |
+| -------- | -------- | --------- | -------------- |
+| plant_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+None
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                |
+| --------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| `200`     | `application/json` | `{"plant_id": 1,"watering": "minimal","name": "aloe vera","cycle": "perennial","common_name": ["aloe","chinese aloe"]}` |
+| `404`     | `application/json` | `{"error":"plant_id does not exist"}`                                                                                   |
+
+### POST
+
+<code><b>/plants/</b></code> &mdash; If a user is an expert, adds a new plant. **Authentication Required**
+
+#### **Parameters**
+
+None
+
+#### **JSON Body**
+
+| name        | type     | data type       | description                                       |
+| ----------- | -------- | --------------- | ------------------------------------------------- |
+| name        | required | string          | The scientific name of the plant. Must be unique. |
+| common_name | optional | list\[strings\] | A list of common names.                           |
+| cycle       | required | string          | Must be perennial, annual, biennial, or biannual  |
+| watering    | required | string          | Must be frequent, average, minimal or none.       |
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `200`     | `application/json` | `[{"plant_id": 1,"watering": "minimal","name": "aloe vera","cycle": "perennial","common_name": ["aloe","chinese aloe"]}, <more plants>]`                                                                                                   |
+| `400`     | `application/json` | `{"error": "error message"}`                                                                                                                                                                                                               |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `409`     | `application/json` | `{"error":"Plant by that name already exists", "resource":<plant_id>}`                                                                                                                                                                     |
+
+### PUT
+
+<code><b>/plants/{plant_id}/</b></code> &mdash; If a user is an expert, updates a plant. **Authentication Required**
+
+#### **Parameters**
+
+| name     | type     | data type | description    |
+| -------- | -------- | --------- | -------------- |
+| plant_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+| name        | type     | data type       | description                                       |
+| ----------- | -------- | --------------- | ------------------------------------------------- |
+| name        | optional | string          | The scientific name of the plant. Must be unique. |
+| common_name | optional | list\[strings\] | A list of common names.                           |
+| cycle       | optional | string          | Must be perennial, annual, biennial, or biannual  |
+| watering    | optional | string          | Must be frequent, average, minimal or none.       |
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `200`     | `application/json` | `[{"plant_id": 1,"watering": "minimal","name": "aloe vera","cycle": "perennial","common_name": ["aloe","chinese aloe"]}, <more plants>]`                                                                                                   |
+| `400`     | `application/json` | `{"error": "error message"}`                                                                                                                                                                                                               |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `409`     | `application/json` | `{"error":"Plant by that name already exists", "resource":<plant_id>}`                                                                                                                                                                     |
+
+### DELETE
+
+<code><b>/plants/{plant_id}/</b></code> &mdash; If a user is an expert, deletes a plant. **Authentication Required**
+
+#### **Parameters**
+
+| name     | type     | data type | description    |
+| -------- | -------- | --------- | -------------- |
+| plant_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+None
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `204`     | None               | None                                                                                                                                                                                                                                       |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `404`     | `application/json` | `{"error":"plant_id does not exist"}`                                                                                                                                                                                                      |
 
 # R6 An ERD for your app
 
