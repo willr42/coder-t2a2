@@ -37,6 +37,7 @@ def seed_db():
     )
     user3.password = bcrypt.generate_password_hash("usseerr").decode("utf-8")
 
+    # This database query adds all of the above users to the database, and commits.
     db.session.add_all([user1, user2, user3])
     db.session.commit()
 
@@ -46,6 +47,7 @@ def seed_db():
     )
     user_garden = Garden(creation_date="2020-02-02", garden_type="terrarium", user_id=2)
 
+    # This database query adds all of the above gardens to the database, and commits.
     db.session.add_all([expert_garden1, expert_garden2, user_garden])
     db.session.commit()
 
@@ -62,6 +64,7 @@ def seed_db():
         watering="frequent",
     )
 
+    # This database query adds all of the above plants to the database, and commits.
     db.session.add_all([plant1, plant2])
     db.session.commit()
 
@@ -96,6 +99,7 @@ def seed_db():
         garden_id=3,
         plant_id=1,
     )
+    # This database query adds all of the above garden plants to the database, and commits.
     db.session.add_all([garden_plant_1, garden_plant_2, garden_plant_3, garden_plant_4])
     db.session.commit()
 

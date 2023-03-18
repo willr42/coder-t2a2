@@ -19,6 +19,7 @@ def get_garden_plants(garden_id):
     Returns:
         JSON
     """
+    # This db call uses the primary key of garden_id to retrieve a Garden object
     garden = db.session.get(Garden, garden_id)
 
     if not garden:
@@ -27,6 +28,7 @@ def get_garden_plants(garden_id):
     if garden.user_id != current_user.user_id:
         abort(401)
 
+    # This db call selects all the GardenPlants that belong to this particular garden_id
     garden_plant_list = (
         db.session.execute(db.select(GardenPlant).filter_by(garden_id=garden_id))
         .scalars()
@@ -44,7 +46,7 @@ def get_garden_plant(garden_id, garden_plant_id):
     Returns:
         JSON
     """
-    # Check they're getting their own Garden
+    # This db call uses the primary key of garden_id to retrieve a Garden object
     garden = db.session.get(Garden, garden_id)
 
     if not garden:
@@ -53,8 +55,8 @@ def get_garden_plant(garden_id, garden_plant_id):
     if garden.user_id != current_user.user_id:
         abort(401)
 
-    # Find the plant
-
+    # This db call selects one GardenPlant by filtering on garden_plant_id, but we check
+    # the garden_id so that if this doesn't match our route, we can throw an error
     garden_plant = db.session.execute(
         db.select(GardenPlant).filter_by(
             garden_plant_id=garden_plant_id, garden_id=garden_id
@@ -75,7 +77,7 @@ def post_garden_plant(garden_id):
     Returns:
         JSON
     """
-    # Check they're getting their own Garden
+    # This db call uses the primary key of garden_id to retrieve a Garden object
     garden = db.session.get(Garden, garden_id)
 
     if not garden:
@@ -89,6 +91,7 @@ def post_garden_plant(garden_id):
     except ValidationError as e:
         abort(400, description=e)
 
+    # This db call uses the primary key of plant_id to retrieve a Plant object
     plant_type = db.session.get(Plant, new_plant_fields["plant_id"])
 
     if not plant_type:
@@ -115,7 +118,7 @@ def update_garden_plant(garden_id, garden_plant_id):
     Returns:
         JSON
     """
-    # Check they're getting their own Garden
+    # This db call uses the primary key of garden_id to retrieve a Garden object
     garden = db.session.get(Garden, garden_id)
 
     if not garden:
@@ -139,6 +142,7 @@ def update_garden_plant(garden_id, garden_plant_id):
     except ValidationError as e:
         abort(400, description=e)
 
+    # This db call returns the GardenPlant in this current Garden, or null if they don't exist
     existing_garden_plant = db.session.execute(
         db.select(GardenPlant)
         .filter_by(garden_plant_id=garden_plant_id)
@@ -153,6 +157,8 @@ def update_garden_plant(garden_id, garden_plant_id):
         if field == "plant" or field == "garden_plant_id":
             continue
         elif field == "garden_id":
+            # This db call uses a primary key lookup to get a garden. If that garden doesn't match the garden they're trying to
+            # change, we error, as they are unauthorized.
             new_garden = db.session.get(Garden, fields_to_update[field])
             if new_garden.user_id != current_user.user_id:
                 abort(401)
@@ -172,7 +178,7 @@ def delete_garden_plant(garden_id, garden_plant_id):
     Returns:
         JSON
     """
-    # Check they're getting their own Garden
+    # This db call uses the primary key of garden_id to retrieve a Garden object
     garden = db.session.get(Garden, garden_id)
 
     if not garden:
@@ -181,6 +187,7 @@ def delete_garden_plant(garden_id, garden_plant_id):
     if garden.user_id != current_user.user_id:
         abort(401)
 
+    # This db call returns the GardenPlant in this current Garden, or null if they don't exist
     garden_plant = db.session.execute(
         db.select(GardenPlant)
         .filter_by(garden_plant_id=garden_plant_id)

@@ -18,6 +18,7 @@ def get_plants():
     Returns:
         JSON
     """
+    # This db call retrieves every Plant in the database
     plant_list = db.session.execute(db.select(Plant)).scalars().all()
 
     return plants_schema.dump(plant_list)
@@ -30,6 +31,7 @@ def get_plant(plant_id):
     Returns:
         JSON
     """
+    # This db call uses the primary key of plant_id to retrieve a Plant object
     plant = db.session.get(Plant, plant_id)
 
     if not plant:
@@ -56,11 +58,12 @@ def add_plant():
     except ValidationError as e:
         abort(400, description=e)
 
+    # This db call retrieves an existing plant by name. Because name is unique, we'll only get back one or null
     existing_plant = db.session.execute(
         db.select(Plant).filter_by(name=new_plant_fields["name"])
     ).scalar()
 
-    # TODO: can we make this into a handler rather than in-line here?
+    # We return this bespoke error response if the plant already exists, so we can send them back the ID
     if existing_plant:
         res = Response(
             status=409,
@@ -96,6 +99,7 @@ def delete_plant(plant_id):
     if not jwt_claims.get("expert", False):
         abort(401)
 
+    # This db call uses the primary key of plant_id to retrieve a Plant object
     existing_plant = db.session.get(Plant, plant_id)
 
     if not existing_plant:
@@ -128,12 +132,15 @@ def update_plant(plant_id):
     except ValidationError as e:
         abort(400, description=e)
 
+    # This db call uses the primary key of plant_id to retrieve a Plant object
     existing_plant = db.session.get(Plant, plant_id)
 
     if not existing_plant:
         abort(404, description="plant_id does not exist")
 
     if fields_to_update["name"]:
+        # If they're wanting to update the name, this db call retrieves any other plant by that name
+        # If it exists, we don't allow them to add a clash
         clashing_name = db.session.execute(
             db.select(Plant).filter_by(name=fields_to_update["name"])
         ).scalar()

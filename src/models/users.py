@@ -13,6 +13,7 @@ class User(db.Model):
     garden = db.relationship("Garden", back_populates="user")
 
 
+# This middleware allows us to access the current_user object inside routes
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]

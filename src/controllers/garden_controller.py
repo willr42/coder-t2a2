@@ -19,6 +19,7 @@ def get_gardens():
     Returns:
         JSON
     """
+    # This query selects all the Garden objects that match the current_user id (this is coming from jwt_extended)
     gardens = (
         db.session.execute(db.select(Garden).filter_by(user_id=current_user.user_id))
         .scalars()
@@ -59,6 +60,8 @@ def create_garden():
 @jwt_required()
 def delete_garden(garden_id):
     """Deletes a garden for the given user's id"""
+
+    # This db call uses the primary key of garden_id to retrieve a Garden object
     existing_garden = db.session.get(Garden, garden_id)
 
     if not existing_garden:
