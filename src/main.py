@@ -32,4 +32,7 @@ def create_app():
     for handler in error_handlers:
         app.register_error_handler(handler.code, handler.handler_function)
 
+    @app.get('/')
+    def index():
+        return {"message":"Welcome to the Plant API. Please explore the routes of /plants, create an account with /auth/register to manage your own gardens."}
     return app
