@@ -41,7 +41,9 @@ def create_garden():
         JSON
     """
     try:
-        garden_fields = garden_schema.load(request.json)
+        garden_fields = garden_schema.load(
+            request.json, partial=("creation_date", "garden_plants")
+        )
     except ValidationError as e:
         abort(400, description=e)
 

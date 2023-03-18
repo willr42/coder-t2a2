@@ -160,6 +160,8 @@ def update_garden_plant(garden_id, garden_plant_id):
             # This db call uses a primary key lookup to get a garden. If that garden doesn't match the garden they're trying to
             # change, we error, as they are unauthorized.
             new_garden = db.session.get(Garden, fields_to_update[field])
+            if not new_garden:
+                abort(404, description="garden_id does not exist")
             if new_garden.user_id != current_user.user_id:
                 abort(401)
 
