@@ -149,12 +149,12 @@ None
 
 #### **JSON Body**
 
-| name        | type     | data type       | description                                       |
-| ----------- | -------- | --------------- | ------------------------------------------------- |
-| name        | required | string          | The scientific name of the plant. Must be unique. |
-| common_name | optional | list\[strings\] | A list of common names.                           |
-| cycle       | required | string          | Must be perennial, annual, biennial, or biannual  |
-| watering    | required | string          | Must be frequent, average, minimal or none.       |
+| name        | type     | data type       | description                                      |
+| ----------- | -------- | --------------- | ------------------------------------------------ |
+| name        | required | string          | The scientific name of the plant. Must be unique |
+| common_name | optional | list\[strings\] | A list of common names                           |
+| cycle       | required | string          | Must be perennial, annual, biennial, or biannual |
+| watering    | required | string          | Must be frequent, average, minimal or none       |
 
 #### **Responses**
 
@@ -180,9 +180,9 @@ None
 | name        | type     | data type       | description                                       |
 | ----------- | -------- | --------------- | ------------------------------------------------- |
 | name        | optional | string          | The scientific name of the plant. Must be unique. |
-| common_name | optional | list\[strings\] | A list of common names.                           |
+| common_name | optional | list\[strings\] | A list of common names                            |
 | cycle       | optional | string          | Must be perennial, annual, biennial, or biannual  |
-| watering    | optional | string          | Must be frequent, average, minimal or none.       |
+| watering    | optional | string          | Must be frequent, average, minimal or none        |
 
 #### **Responses**
 
@@ -262,7 +262,7 @@ None
 
 ### DELETE
 
-<code><b>/gardens/{garden_id}/</b></code> &mdash; Delete a garden owned by the current user.**Authentication Required**
+<code><b>/gardens/{garden_id}/</b></code> &mdash; Delete a garden owned by the current user. **Authentication Required**
 
 #### **Parameters**
 
@@ -342,12 +342,12 @@ None
 
 #### **JSON Body**
 
-| name         | type     | data type | description                                                                   |
-| ------------ | -------- | --------- | ----------------------------------------------------------------------------- |
-| plant_id     | required | int       | The id of a plant in the plants table.                                        |
-| last_watered | required | date      | YYYY-MM-DD iso format.                                                        |
-| placement    | required | string    | The location in the garden relative to the sun. IE. "Full shade", "full sun". |
-| healthiness  | required | int       | Track how healthy the plant is from 1 to 10.                                  |
+| name         | type     | data type | description                                                                  |
+| ------------ | -------- | --------- | ---------------------------------------------------------------------------- |
+| plant_id     | required | int       | The id of a plant in the plants table                                        |
+| last_watered | required | date      | YYYY-MM-DD iso format                                                        |
+| placement    | required | string    | The location in the garden relative to the sun. IE. "Full shade", "full sun" |
+| healthiness  | required | int       | Track how healthy the plant is from 1 to 10                                  |
 
 #### **Responses**
 
@@ -372,12 +372,12 @@ None
 
 #### **JSON Body**
 
-| name         | type     | data type | description                                                                   |
-| ------------ | -------- | --------- | ----------------------------------------------------------------------------- |
-| last_watered | optional | date      | YYYY-MM-DD iso format.                                                        |
-| placement    | optional | string    | The location in the garden relative to the sun. IE. "Full shade", "full sun". |
-| healthiness  | optional | int       | Track how healthy the plant is from 1 to 10.                                  |
-| garden_id    | optional | int       | The ID of another garden to move this plant into.                             |
+| name         | type     | data type | description                                                                  |
+| ------------ | -------- | --------- | ---------------------------------------------------------------------------- |
+| last_watered | optional | date      | YYYY-MM-DD iso format                                                        |
+| placement    | optional | string    | The location in the garden relative to the sun. IE. "Full shade", "full sun" |
+| healthiness  | optional | int       | Track how healthy the plant is from 1 to 10                                  |
+| garden_id    | optional | int       | The ID of another garden to move this plant into                             |
 
 #### **Responses**
 
