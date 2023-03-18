@@ -215,6 +215,8 @@ None
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"plant_id does not exist"}`                                                                                                                                                                                                      |
 
+---
+
 ## Gardens
 
 `/gardens` url prefix.
@@ -282,13 +284,15 @@ None
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 
+---
+
 ## GardenPlants
 
 `/gardenplants` url prefix.
 
 ### GET
 
-<code><b>/gardenplants/{garden_id}></b></code> &mdash; Gets all plants in a garden associated with a current user. **Authentication Required**.
+<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Gets all plants in a garden associated with a current user. **Authentication Required**.
 
 #### **Parameters**
 
@@ -303,8 +307,8 @@ None
 #### **Responses**
 
 | http code | content-type       | response                                                                                                                                                                                                                                   |
-| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --- |
-| `200`     | `application/json` | `[{"plant_id": 1,"garden_plant_id": 4,"healthiness": 2,"garden_id": 3,"placement": "indoors","last_watered": "2021-01-01"}]`                                                                                                               |     |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `200`     | `application/json` | `[{"plant_id": 1,"garden_plant_id": 4,"healthiness": 2,"garden_id": 3,"placement": "indoors","last_watered": "2021-01-01"}]`                                                                                                               |
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 
@@ -324,8 +328,8 @@ None
 #### **Responses**
 
 | http code | content-type       | response                                                                                                                                                                                                                                   |
-| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --- |
-| `200`     | `application/json` | `{"plant_id": 1,"healthiness": 2,"garden_id": 3,"placement": "indoors","last_watered": "2021-01-01"}`                                                                                                                                      |     |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `200`     | `application/json` | `{"plant_id": 1,"healthiness": 2,"garden_id": 3,"placement": "indoors","last_watered": "2021-01-01"}`                                                                                                                                      |
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 | `404`     | `application/json` | `{"error":"garden_plant does not exist in this garden"}`                                                                                                                                                                                   |
@@ -391,7 +395,7 @@ None
 
 ### DELETE
 
-<code><b>/gardenplants/{garden_id}/{garden_plant_id}/</b></code> &mdash; Delete a garden plant owned by the current user.**Authentication Required**
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}/</b></code> &mdash; Delete a garden plant owned by the current user. **Authentication Required**
 
 #### **Parameters**
 
