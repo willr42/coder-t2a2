@@ -6,6 +6,35 @@ Webserver Flask API project for CoderAcademy course.
 
 [Project Management Board](https://trello.com/b/C1nWwPAe/t2a2-flask-api).
 
+# Installation - Automatic
+
+This repo comes with a setup script designed to help you install and run the project. Note that this project requires an installation of **Postgresql** and **Python3**.
+
+1. Clone the repo with `git clone`.
+2. CD into the root of the repo and run `./setup.sh`. This script should automatically configure the Postgresql database for you, create a new user, create the necessary environment variable file, install the required Python libraries and run the application.
+
+# Installation - Manual
+
+It is possible to manually configure this application, but it requires several steps.
+
+1. Create a Postgres database named `plantapi` with a user named `plant_admin` with a password of your choice.
+2. Create a .env file at the root of the project with the following contents;
+
+```shell
+DATABASE_URL="postgresql+psycopg2://plantadmin:<your password>@localhost:5432/plantapi"
+SECRET_KEY="<your secret key - any random string>"
+```
+
+3. Create a Python venv with `python -m venv .venv` and source it with `source .venv/bin/activate`.
+4. Install the dependencies with `pip install -r requirements.txt`.
+5. Create and seed the database with `flask db create; flask db seed`.
+6. Run the server with `flask run`.
+
+# Usage
+
+1. From the root of the repo, type `source .venv/bin/activate`.
+2. Type `flask run`, provided you have created and seeded the database. If not, type `flask db drop; flask db create; flask db seed`. These commands also work individually.
+
 # R1 Identification of the problem you are trying to solve by building this particular app.
 
 Amateur horticulturalists are faced with a huge knowledge area they need to track - all the varieties of plants they can keep. How much water they need, how often, what sort of soil they need, their climate conditions, and so on. And tracking the plants you actually own can be just as complicated.
