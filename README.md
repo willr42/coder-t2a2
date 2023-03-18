@@ -141,7 +141,7 @@ None
 
 ### POST
 
-<code><b>/plants/</b></code> &mdash; If a user is an expert, adds a new plant. **Authentication Required**
+<code><b>/plants/</b></code> &mdash; If a user is an expert, adds a new plant. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.** This particular route is further protected by authorization - if a user is not an expert, they will not have the right credentials to call this endpoint.
 
 #### **Parameters**
 
@@ -167,7 +167,7 @@ None
 
 ### PUT
 
-<code><b>/plants/{plant_id}/</b></code> &mdash; If a user is an expert, updates a plant. **Authentication Required**
+<code><b>/plants/{plant_id}/</b></code> &mdash; If a user is an expert, updates a plant. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.** This particular route is further protected by authorization - if a user is not an expert, they will not have the right credentials to call this endpoint.
 
 #### **Parameters**
 
@@ -195,7 +195,7 @@ None
 
 ### DELETE
 
-<code><b>/plants/{plant_id}/</b></code> &mdash; If a user is an expert, deletes a plant. **Authentication Required**
+<code><b>/plants/{plant_id}/</b></code> &mdash; If a user is an expert, deletes a plant. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.** This particular route is further protected by authorization - if a user is not an expert, they will not have the right credentials to call this endpoint.
 
 #### **Parameters**
 
@@ -223,7 +223,7 @@ None
 
 ### GET
 
-<code><b>/gardens/</b></code> &mdash; Gets all gardens associated with a current user. **Authentication Required**.
+<code><b>/gardens/</b></code> &mdash; Gets all gardens associated with a current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**.
 
 #### **Parameters**
 
@@ -243,7 +243,7 @@ None
 
 ### POST
 
-<code><b>/gardens/</b></code> &mdash; Creates a new garden for a user. **Authentication required.**
+<code><b>/gardens/</b></code> &mdash; Creates a new garden for a user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes..**
 
 #### **Parameters**
 
@@ -264,7 +264,7 @@ None
 
 ### DELETE
 
-<code><b>/gardens/{garden_id}/</b></code> &mdash; Delete a garden owned by the current user. **Authentication Required**
+<code><b>/gardens/{garden_id}/</b></code> &mdash; Delete a garden owned by the current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**
 
 #### **Parameters**
 
@@ -292,7 +292,7 @@ None
 
 ### GET
 
-<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Gets all plants in a garden associated with a current user. **Authentication Required**.
+<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Gets all plants in a garden associated with a current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**.
 
 #### **Parameters**
 
@@ -312,7 +312,7 @@ None
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 
-<code><b>/gardenplants/{garden_id}/{garden_plant_id}></b></code> &mdash; Gets a single plant in a garden associated with a current user. **Authentication Required**.
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}></b></code> &mdash; Gets a single plant in a garden associated with a current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**.
 
 #### **Parameters**
 
@@ -336,7 +336,7 @@ None
 
 ### POST
 
-<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Creates a new plant in a garden. **Authentication required.**
+<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Creates a new plant in a garden. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes..**
 
 #### **Parameters**
 
@@ -365,7 +365,7 @@ None
 
 ### PUT
 
-<code><b>/gardenplants/{garden_id}/{garden_plant_id}</b></code> &mdash; Updates an existing plant in a garden. **Authentication required.**
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}</b></code> &mdash; Updates an existing plant in a garden. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes..**
 
 #### **Parameters**
 
@@ -395,7 +395,7 @@ None
 
 ### DELETE
 
-<code><b>/gardenplants/{garden_id}/{garden_plant_id}/</b></code> &mdash; Delete a garden plant owned by the current user. **Authentication Required**
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}/</b></code> &mdash; Delete a garden plant owned by the current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**
 
 #### **Parameters**
 
@@ -560,11 +560,11 @@ A user can have many gardens. Each garden has a connection to the user that crea
 
 Plants are the main data being stored in the API, along with the Gardens and their connection to them. The plant table contains a field of `name`, which represents the scientific name of the plant, and an array of strings called `common_name`. Arrays are a Postgres feature and allow us to store multiple strings in a singular field. Both `cycle` and `watering` are enums. This has the effect of limiting duplication and enforcing specific values at the database level. The primary key is the ubiquitous surrogate key.
 
-The line from the plants table to the garden\_plants table indicates that one plant may appear in one or more garden\_plant rows. This should make sense, as the plant is the species of plant, whereas we can think of a garden\_plant as a specific "instance" of a plant in a users garden.
+The line from the plants table to the garden_plants table indicates that one plant may appear in one or more garden_plant rows. This should make sense, as the plant is the species of plant, whereas we can think of a garden_plant as a specific "instance" of a plant in a users garden.
 
-Garden\_plants is the final table, which connects the garden a user has created with plants. Thus we have two foreign keys, one from gardens, one from plants. The `last_watered` field keeps track of when a user has last watered a particular plant. The `placement` field tracks the sun conditions the plant is placed in (full shade, full sun, or a mix). `Healthiness` is an integer from 1 to 10 that tracks exactly that — how well a plant is doing (10 being peak condition, 1 being on its last legs). Finally, the surrogate key of `garden_plant_id`.
+Garden_plants is the final table, which connects the garden a user has created with plants. Thus we have two foreign keys, one from gardens, one from plants. The `last_watered` field keeps track of when a user has last watered a particular plant. The `placement` field tracks the sun conditions the plant is placed in (full shade, full sun, or a mix). `Healthiness` is an integer from 1 to 10 that tracks exactly that — how well a plant is doing (10 being peak condition, 1 being on its last legs). Finally, the surrogate key of `garden_plant_id`.
 
-In the ERD, the line between gardens and garden\_plant indicates that one garden\_id may appear in a row of garden\_plants, which makes sense, as each garden\_plant row has only one garden\_id in it.
+In the ERD, the line between gardens and garden_plant indicates that one garden_id may appear in a row of garden_plants, which makes sense, as each garden_plant row has only one garden_id in it.
 
 # R10 Describe the way tasks are allocated and tracked in your project
 
