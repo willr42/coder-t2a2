@@ -215,6 +215,204 @@ None
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"plant_id does not exist"}`                                                                                                                                                                                                      |
 
+## Gardens
+
+`/gardens` url prefix.
+
+### GET
+
+<code><b>/gardens/</b></code> &mdash; Gets all gardens associated with a current user. **Authentication Required**.
+
+#### **Parameters**
+
+None
+
+#### **JSON Body**
+
+None
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `200`     | `application/json` | `[{"garden_id": 3,"garden_plants": [{"garden_plant_id": <id>}],"creation_date": "2020-02-02","user_id": 2,"garden_type": "terrarium"}]`                                                                                                    |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `404`     | `application/json` | `{"error":"user has no gardens"}`                                                                                                                                                                                                          |
+
+### POST
+
+<code><b>/gardens/</b></code> &mdash; Creates a new garden for a user. **Authentication required.**
+
+#### **Parameters**
+
+None
+
+#### **JSON Body**
+
+| name        | type     | data type | description                                                |
+| ----------- | -------- | --------- | ---------------------------------------------------------- |
+| garden_type | required | string    | The type of garden ("inside", "outside", "terrarium", etc) |
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                      |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `200`     | `application/json` | `{"garden_id": 3,"garden_plants": [],"creation_date": "2020-02-02","user_id": 2,"garden_type": "terrarium"}]` |
+| `400`     | `application/json` | `{"error": "error message"}`                                                                                  |
+
+### DELETE
+
+<code><b>/gardens/{garden_id}/</b></code> &mdash; Delete a garden owned by the current user.**Authentication Required**
+
+#### **Parameters**
+
+| name      | type     | data type | description    |
+| --------- | -------- | --------- | -------------- |
+| garden_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+None
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `204`     | None               | None                                                                                                                                                                                                                                       |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
+
+## GardenPlants
+
+`/gardenplants` url prefix.
+
+### GET
+
+<code><b>/gardenplants/{garden_id}></b></code> &mdash; Gets all plants in a garden associated with a current user. **Authentication Required**.
+
+#### **Parameters**
+
+| name      | type     | data type | description    |
+| --------- | -------- | --------- | -------------- |
+| garden_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+None
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --- |
+| `200`     | `application/json` | `[{"plant_id": 1,"garden_plant_id": 4,"healthiness": 2,"garden_id": 3,"placement": "indoors","last_watered": "2021-01-01"}]`                                                                                                               |     |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
+
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}></b></code> &mdash; Gets a single plant in a garden associated with a current user. **Authentication Required**.
+
+#### **Parameters**
+
+| name            | type     | data type | description    |
+| --------------- | -------- | --------- | -------------- |
+| garden_id       | required | int       | Must be unique |
+| garden_plant_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+None
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --- |
+| `200`     | `application/json` | `{"plant_id": 1,"healthiness": 2,"garden_id": 3,"placement": "indoors","last_watered": "2021-01-01"}`                                                                                                                                      |     |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
+| `404`     | `application/json` | `{"error":"garden_plant does not exist in this garden"}`                                                                                                                                                                                   |
+
+### POST
+
+<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Creates a new plant in a garden. **Authentication required.**
+
+#### **Parameters**
+
+| name      | type     | data type | description    |
+| --------- | -------- | --------- | -------------- |
+| garden_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+| name         | type     | data type | description                                                                   |
+| ------------ | -------- | --------- | ----------------------------------------------------------------------------- |
+| plant_id     | required | int       | The id of a plant in the plants table.                                        |
+| last_watered | required | date      | YYYY-MM-DD iso format.                                                        |
+| placement    | required | string    | The location in the garden relative to the sun. IE. "Full shade", "full sun". |
+| healthiness  | required | int       | Track how healthy the plant is from 1 to 10.                                  |
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `200`     | `application/json` | `{"garden_id": 3,"garden_plants": [],"creation_date": "2020-02-02","user_id": 2,"garden_type": "terrarium"}]`                                                                                                                              |
+| `400`     | `application/json` | `{"error": "error message"}`                                                                                                                                                                                                               |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
+| `404`     | `application/json` | `{"error":"plant_id not found "}`                                                                                                                                                                                                          |
+
+### PUT
+
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}</b></code> &mdash; Updates an existing plant in a garden. **Authentication required.**
+
+#### **Parameters**
+
+| name            | type     | data type | description    |
+| --------------- | -------- | --------- | -------------- |
+| garden_id       | required | int       | Must be unique |
+| garden_plant_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+| name         | type     | data type | description                                                                   |
+| ------------ | -------- | --------- | ----------------------------------------------------------------------------- |
+| last_watered | optional | date      | YYYY-MM-DD iso format.                                                        |
+| placement    | optional | string    | The location in the garden relative to the sun. IE. "Full shade", "full sun". |
+| healthiness  | optional | int       | Track how healthy the plant is from 1 to 10.                                  |
+| garden_id    | optional | int       | The ID of another garden to move this plant into.                             |
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `200`     | `application/json` | `{"garden_id": 3,"garden_plants": [],"creation_date": "2020-02-02","user_id": 2,"garden_type": "terrarium"}]`                                                                                                                              |
+| `400`     | `application/json` | `{"error": "error message"}`                                                                                                                                                                                                               |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
+| `404`     | `application/json` | `{"error":"garden_plant does not exist in this garden"}`                                                                                                                                                                                   |
+
+### DELETE
+
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}/</b></code> &mdash; Delete a garden plant owned by the current user.**Authentication Required**
+
+#### **Parameters**
+
+| name            | type     | data type | description    |
+| --------------- | -------- | --------- | -------------- |
+| garden_id       | required | int       | Must be unique |
+| garden_plant_id | required | int       | Must be unique |
+
+#### **JSON Body**
+
+None
+
+#### **Responses**
+
+| http code | content-type       | response                                                                                                                                                                                                                                   |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `204`     | None               | None                                                                                                                                                                                                                                       |
+| `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
+| `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
+| `404`     | `application/json` | `{"error":"garden_plant does not exist in this garden"}`                                                                                                                                                                                   |
+
 # R6 An ERD for your app
 
 ![ER Diagram](docs/er-diagram.png)
