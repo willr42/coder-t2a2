@@ -138,7 +138,9 @@ def update_plant(plant_id):
     if not existing_plant:
         abort(404, description="plant_id does not exist")
 
-    if fields_to_update["name"]:
+    clashing_name = None
+
+    if fields_to_update.get("name"):
         # If they're wanting to update the name, this db call retrieves any other plant by that name
         # If it exists, we don't allow them to add a clash
         clashing_name = db.session.execute(
@@ -160,6 +162,10 @@ def update_plant(plant_id):
 
     for field in fields_to_update:
         if field == "plant_id":
+            continue
+        if field == "common_name":
+            new_list = [*fields_to_update[field]]
+            existing_plant.common_name = [*existing_plant.common_name] + new_list
             continue
         setattr(existing_plant, field, fields_to_update[field])
 
