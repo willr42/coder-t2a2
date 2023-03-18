@@ -23,8 +23,8 @@ def register_user():
     except ValidationError as e:
         abort(400, description=e)
 
-    # This db query selects all the users, filtered by their email, and returns a list that matches. Because
-    # Emails are enforced uniqueness, this will be one email (or null)
+    # This db query selects all the users, filtered by their email, and returns a list that matches. 
+    # Because emails are enforced uniqueness, this will be only ever return the one email, or null.
     existing_user = db.session.execute(
         db.select(User).filter_by(email=user_fields["email"])
     ).scalar()
@@ -64,7 +64,8 @@ def login_user():
     except ValidationError as e:
         abort(401, description=e)
 
-    # This db query selects all the users, filtered by their email, and returns one that matches
+    # This db query selects all the users, filtered by their email, and returns one that matches.
+    # This is the equivalent of a SELECT FROM WHERE in SQL.
     user = db.session.execute(
         db.select(User).filter_by(email=user_fields["email"])
     ).scalar()

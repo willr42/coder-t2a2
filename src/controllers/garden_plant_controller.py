@@ -29,6 +29,8 @@ def get_garden_plants(garden_id):
         abort(401)
 
     # This db call selects all the GardenPlants that belong to this particular garden_id
+    # It will return a List of multiple GardenPlants, as we've used .scalars() and .all()
+    # to access all of them.
     garden_plant_list = (
         db.session.execute(db.select(GardenPlant).filter_by(garden_id=garden_id))
         .scalars()
@@ -56,7 +58,10 @@ def get_garden_plant(garden_id, garden_plant_id):
         abort(401)
 
     # This db call selects one GardenPlant by filtering on garden_plant_id, but we check
-    # the garden_id so that if this doesn't match our route, we can throw an error
+    # the garden_id so that if this doesn't match our route, we can throw an error.
+    # You can use filter_by like this, or by chaining them together.
+    # Because we know garden_plant_id is a primary key, we don't have to worry about multiple
+    # records being returned.
     garden_plant = db.session.execute(
         db.select(GardenPlant).filter_by(
             garden_plant_id=garden_plant_id, garden_id=garden_id
@@ -104,6 +109,7 @@ def post_garden_plant(garden_id):
     new_garden_plant.placement = new_plant_fields["placement"]
     new_garden_plant.healthiness = new_plant_fields["healthiness"]
 
+    # This db call adds the new plant we've created to the database.
     db.session.add(new_garden_plant)
     db.session.commit()
 
@@ -142,7 +148,11 @@ def update_garden_plant(garden_id, garden_plant_id):
     except ValidationError as e:
         abort(400, description=e)
 
-    # This db call returns the GardenPlant in this current Garden, or null if they don't exist
+    # This db call returns the GardenPlant in this current Garden, or null if they don't exist.
+    # Again, because the garden_plant_id is the primary key, we don't need to be concerned with
+    # checking for multiple records being returned. Using the one() method means it throws an error
+    # - I preferred to deal with this with an if check as I used it elsewhere, but you could easily
+    # surround this in a try/catch as well.
     existing_garden_plant = db.session.execute(
         db.select(GardenPlant)
         .filter_by(garden_plant_id=garden_plant_id)
@@ -190,6 +200,8 @@ def delete_garden_plant(garden_id, garden_plant_id):
         abort(401)
 
     # This db call returns the GardenPlant in this current Garden, or null if they don't exist
+    # Uniqueness is guaranteed by filtering on primary key, but I wanted to ensure that someone
+    # Can't delete a garden_plant that is in a different garden (even if they are authorized to)
     garden_plant = db.session.execute(
         db.select(GardenPlant)
         .filter_by(garden_plant_id=garden_plant_id)
@@ -199,6 +211,7 @@ def delete_garden_plant(garden_id, garden_plant_id):
     if not garden_plant:
         abort(404, description="garden_plant does not exist in this garden")
 
+    # This db call removes the garden_plant from the database.
     db.session.delete(garden_plant)
     db.session.commit()
 

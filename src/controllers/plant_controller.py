@@ -18,7 +18,7 @@ def get_plants():
     Returns:
         JSON
     """
-    # This db call retrieves every Plant in the database
+    # This db call retrieves every Plant in the database as a List
     plant_list = db.session.execute(db.select(Plant)).scalars().all()
 
     return plants_schema.dump(plant_list)
