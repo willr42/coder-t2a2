@@ -10,14 +10,18 @@ from models.users import User
 db_commands = AppGroup("db")
 
 
-@db_commands.command("create")
 def create_db():
     """Creates all database tables."""
     db.create_all()
+
+
+@db_commands.command("create")
+def create_db_command():
+    """Creates all database tables."""
+    create_db()
     click.echo(click.style("✨ All tables created. ✨", fg="green", bold=True))
 
 
-@db_commands.command("seed")
 def seed_db():
     """Seed the database with test data."""
     user1 = User(
@@ -94,13 +98,22 @@ def seed_db():
     )
     db.session.add_all([garden_plant_1, garden_plant_2, garden_plant_3, garden_plant_4])
     db.session.commit()
+
+
+@db_commands.command("seed")
+def seed_db_command():
+    seed_db()
     click.echo(
         click.style("🌱 All tables seeded. 🌱", fg="green", bold=True, italic=True)
     )
 
 
-@db_commands.command("drop")
-def delete():
+def delete_db():
     """Deletes all database tables."""
     db.drop_all()
+
+
+@db_commands.command("drop")
+def delete_db_command():
+    delete_db()
     click.echo(click.style("🗑️ All tables dropped. 🗑️", fg="red", bold=True))
