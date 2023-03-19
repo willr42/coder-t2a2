@@ -55,24 +55,34 @@ The other Postgres feature I plan on using is the Array type. Arrays let you sto
 
 ## Drawbacks
 
-One of the most-cited drawbacks of Postgres is often the steep learning curve, but since I've already used it on a few projects, I've mitigated most of that drawback.
+One of the most-cited drawbacks of Postgres is often the steep [learning curve][1], but since I've already used it on a few projects, I've mitigated most of that drawback.
 
-As an open-source project, Postgres doesn't get the support of something like Oracle Server, but that's not a problem for the smaller scope of this assignment. There is also a wide variety of support available through online resources, plenty for hobby projects.
+As an [open-source project][2], Postgres doesn't get the support of something like Oracle Server, but that's not a problem for the smaller scope of this assignment. There is also a wide variety of support available through online resources, plenty for hobby projects.
 
 Finally, some people have found that Postgres can be more resource-intensive than MySQL or other RDBMS. I also think the limited scope helps with this drawback.
 
 # R4 Identify and discuss the key functionalities and benefits of an ORM
 
-An ORM is an Object-Relational-Mapper. Without an ORM, we'd be forced to;
+## Functionalities
 
-- Craft our own hand-written SQL queries for every single endpoint in our application
-- Handwrite how we load data from the database into the application, and vice-versa
+An ORM is an Object-Relational Mapper. It allows us to connect our database to our code with less friction, and more safety, than writing traditional SQL statements and somehow passing them to the database. With an ORM, we write our objects in an OOP style in the same language as our source code. We can use typical language features like classes and inheritance.
 
-An ORM _abstracts_ this functionality. We write objects in an OOP style in our source code. The ORM translates those code artifacts into the relations in the database - hence the "object-relational-mapper" acronym.
+ORMs let us **create tables based on object definitions**. In the ORM in this project, SQLAlchemy, we define a Model class that inherits from the ORMs model class. This model class both defines the fields within the table, and can also be instantiated as an instance (a row) of that data.
+‌
 
-The key benefits of an ORM are mainly the fact that we move away from writing SQL, which is like writing another additional language as well as our backend. Additionally, if you use a popular, well-maintained ORM, the security is likely to be better than handcrafted SQL queries - the authors of such libraries are experts in SQL and avoiding SQL injection attacks. If the ORM is properly decoupled from the database, it enables us to quickly and easily change out the database as needed, without the need to change anything in the application itself.
+ORMs let us **manipulate database rows as if they were code objects**. This is a key functionality of an ORM. You define the Model, and then you can query the database and get back an object, based on that model (hence "object-relational-mapper"). This mapping means we can perform tasks like updating fields, deleting the object entirely, all within our source code. The database is handled automatically.
 
-An ORM lets us use the OOP conventions we use in our regular programming to interact with the database as well. Because we're interacting with our code, not writing SQL, we can use the features of our IDE to validate these classes and fields.
+## Benefits
+
+One of the first key benefits of an ORM is **abstraction**. With an ORM, we largely don't have to care about the underlying database. If the ORM is truly generic, we should be able to pick up our project and switch out the data layer without making any changes to the code. This is a great benefit in terms of testing (you can simply connect a test database, rather than production) and future-proofing, as today's most popular database may not stand the test of time.
+
+The next key benefit is **speed**. Without an ORM, we'd be forced to craft our own hand-written SQL queries for every single endpoint in our application, and write from scratch how we load data from the database into the application, and vice-versa. Using an ORM, we can move faster, as we're able to use the features of the language we're programming in rather than building more from the ground up.
+
+Another key benefit is **native language**. Writing SQL is an additional overhead for most projects. Particularly complex SQL may require an entire programmer or database admin devoted to it. Using an ORM like SQLAlchemy means we simply write Python code. Then, the SQL code is generated automatically for us.
+
+**Security** is also a potential benefit, although this varies depending on the ORM of your choice. If you use a popular, well-maintained ORM, the security is likely to be better than handcrafted SQL queries - the authors of such libraries are experts in SQL and avoiding SQL injection attacks.
+
+Finally, with modern tooling like an IDE, using an ORM gives us additional **safety**. We can use autocompletion on database classes and fields, eliminating accidental bugs or references to non-existent entities.
 
 To turn the tables for a little, though, some developers swear off ORMs as an unneeded overhead, and instead reach for "query builders". These give you the benefit of stepping away from writing SQL yourself, but without going towards a full object model as used by ORMs.
 
@@ -604,3 +614,9 @@ The process involves moving each card into In Dev, where I work on the particula
 This Kanban style of working is very visual and tactile, and I found it worked well on the previous assignment.
 
 For full details, see my [Garden API Trello](https://trello.com/b/C1nWwPAe/t2a2-flask-api) board.
+
+# References
+
+- [1]: https://www.guru99.com/introduction-postgresql.html 'Peterson, R. (2019). What is PostgreSQL? Introduction, History, Features, Advantages. [online] Guru99.com.'
+- [2]: https://www.aalpha.net/blog/pros-and-cons-of-using-postgresql-for-application-development/ 'Dhruv, S. (2019). Pros and Cons of using PostgreSQL for Application Development. [online] Aalpha.'
+  ‌
