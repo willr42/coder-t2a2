@@ -65,9 +65,63 @@ def seed_db():
         cycle="biennial",
         watering="frequent",
     )
+    plant3 = Plant(
+        name="monstera deliciosa",
+        common_name=["swiss cheese plant", "split-leaf philodendron"],
+        cycle="perennial",
+        watering="average",
+    )
+    plant4 = Plant(
+        name="dracaena fragrans",
+        common_name=["corn plant"],
+        cycle="perennial",
+        watering="minimal",
+    )
+    plant5 = Plant(
+        name="adiantum",
+        common_name=["maidenhair fern"],
+        cycle="perennial",
+        watering="frequent",
+    )
+    plant6 = Plant(
+        name="zamioculcas",
+        common_name=["zanzibar gem"],
+        cycle="perennial",
+        watering="minimal",
+    )
+    plant7 = Plant(
+        name="peperomia argyreia",
+        common_name=["watermelon peperomia"],
+        cycle="perennial",
+        watering="average",
+    )
+    plant8 = Plant(
+        name="epipremnum aureum",
+        common_name=["golden pothos", "devil's ivy"],
+        cycle="perennial",
+        watering="average",
+    )
+    plant9 = Plant(
+        name="ficus lyrata",
+        common_name=["fiddle leaf fig"],
+        cycle="perennial",
+        watering="frequent",
+    )
 
     # This database query adds all of the above plants to the database, and commits.
-    db.session.add_all([plant1, plant2])
+    db.session.add_all(
+        [
+            plant1,
+            plant2,
+            plant3,
+            plant4,
+            plant5,
+            plant6,
+            plant7,
+            plant8,
+            plant9,
+        ]
+    )
     db.session.commit()
 
     garden_plant_1 = GardenPlant(
