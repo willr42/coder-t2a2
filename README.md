@@ -11,7 +11,7 @@ Webserver Flask API project for CoderAcademy course.
 This repo comes with a setup script designed to help you install and run the project. Note that this project requires an installation of **Postgresql** and **Python3**.
 
 1. Clone the repo with `git clone`.
-2. CD into the root of the repo and run `./setup.sh`. This script should automatically configure the Postgresql database for you, create a new user, create the necessary environment variable file, install the required Python libraries and run the application.
+2. CD into the root of the repo and run `./src/setup.sh`. This script should automatically configure the Postgresql database for you, create a new user, create the necessary environment variable file, install the required Python libraries and run the application.
 
 # Installation - Manual
 
