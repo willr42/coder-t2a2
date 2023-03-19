@@ -486,21 +486,23 @@ In terms of general third party services;
 
 I intend to use Perenual's [Plant API](https://perenual.com/docs/api) to generate some initial seed data for my database based on the most popular houseplants in Australia. Perenual's API is still fairly limited but I hope to retrieve the data necessary for this project.
 
+Perenual's API proved quite limited, so I manually extracted some plants to use as seed data. A future extension of the project could involve calling their API regularly to check for new plants being added, and add them to our database.
+
 The source code is hosted on Github, and I use Trello for project management.
 
 ## Third-party Libraries
 
 As a Flask application, my app will draw on various third-party libraries to function. Here are the top-level dependencies (note, some of these may have their own internal dependencies).
 
-- Black for code formatting
-- Flask, as the web server
-- Flask-Bcrypt, for password encryption
-- Flask-JWT-Extended, for JWT generation & management
-- Flask-Marshmallow, for serializing Python to JSON
-- Flask-SQLAlchemy, a wrapper library for SQLAlchemy
-- psycopg2, a Python database adapter for Postgres
-- python-dotenv, enabling me to use environmental variables in Flask config
-- SQLAlchemy, an ORM
+- **Black for code formatting**. Black allows me to set up format on save, and ensure my code follows a consistent style.
+- **Flask, as the web server**. Flask is a simple yet powerful Python web server framework and is the backbone of the project, handling requests and delivering responses while connecting to the database.
+- **Flask-Bcrypt, for password encryption**. Flask-Bcrypt is an implementation of the `bcrypt` algorithm that works natively with Flask, providing handler methods to make hashing and checking passwords easier.
+- **Flask-JWT-Extended, for JWT generation & management**. This library is responsible for both generating JWTs and allowing me to check a user's authorization for being able to perform certain actions.
+- **Flask-Marshmallow, for serializing Python to JSON**. Marshmallow is a serialization/deserialization library, letting you turn JSON into Python objects and vice versa.
+- **Flask-SQLAlchemy, a wrapper library for SQLAlchemy**. This wrapper comes with some helpful methods out of the box to create models for database tables and rows.
+- **psycopg2, a Python database adapter for Postgres**. This seamlessly connects Postgres with Flask and therefore SQLAlchemy.
+- **python-dotenv**, enabling me to use environmental variables in Flask config. This simple library loads environment variables enabling per-user configuration and secrets.
+- **SQLAlchemy, an ORM**. This lets me interface with Postgres in an intuitive, Python-native way.
 
 <div style="page-break-after: always"></div>
 
