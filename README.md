@@ -41,7 +41,11 @@ Amateur horticulturalists are faced with a huge knowledge area they need to trac
 
 # R2 Why is it a problem that needs solving?
 
-My API will allow a user to create their own virtual Garden. They can register an account using their email. They can then create a new Garden, and begin adding plants to it. This Garden will track the plants inside it, and track what plants have been watered recently, what have yet to be watered, and if any are overdue for their next watering. Creating this virtual representation of a garden means users can be in more control of their hobby than ever.
+My API will allow a user to create their own virtual Gardens. They can register an account using their email. They can then create a new Garden, and begin adding plants to it. This Garden will track the plants inside it, and track what plants have been watered recently, what have yet to be watered, and if any are overdue for their next watering. Creating this virtual representation of a garden means users can be in more control of their hobby than ever.
+
+My API will also allow them to create multiple Gardens, depending on the different zones in their home or property. In this way, they can keep track of how a plant performs in different conditions - is it more healthy inside, with full sun? Or indoors, with full shade? They'll be able to answer these sort of questions, and future iterations of the API could even allow users to access each other's Gardens to see how their garden matches up.
+
+<div style="page-break-after: always"></div>
 
 # R3 Why have you chosen this database system. What are the drawbacks compared to others?
 
