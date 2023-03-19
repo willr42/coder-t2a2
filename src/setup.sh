@@ -10,7 +10,6 @@ silent(){
 
 # move to directory of the script
 cd -P -- "$(dirname -- "$0")"
-cd ..
 
 # Check for postgres
 if ! [ -x "$(command -v psql)" ]; then
