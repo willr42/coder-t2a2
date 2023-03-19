@@ -635,7 +635,11 @@ In the ERD, the line between gardens and garden_plant indicates that one garden_
 
 While I'm a team of one, I'm running this project in an Agile way. I've developed a backlog of features that I need in my app. There are some dependencies, which means being aware of assigning myself tasks before I'm able to actually complete them, so I'm using a Trello board where the hierarchy in the list represents their ability to be completed. When generating the backlog, I left notes for myself in terms of potential pitfalls or things to watch out for.
 
-The process involves moving each card into In Dev, where I work on the particular feature. Once complete, I move it to Dev Done. Tasks in Dev Done are considered provisionally complete. In a regular rhythm, I revisit the tasks in Dev Done and consider their future. Either they have generated further tasks I couldn't foresee, which go into the backlog. Or they require further development that I couldn't foresee, so they stay in this column. Or they are fully completed, in which case they enter Done.
+I also assign each task Story Points, in the style of Agile. These story points are representations of the amount of effort I roughly estimate it will take a task to complete. Sometimes, the story points may be significantly more than needed, in which case I'll reassess. Typically, I try to only complete a certain amount of story points per week, to ensure I don't burn myself out.
+
+The process involves moving each card into In Dev, where I work on the particular feature. While a feature is underway, I may make additional notes or break a task out into further subtasks \(through the use of on-card todo lists\) or realise I need to create an entirely new task. These new tasks go into the backlog.
+
+Once complete, I move it to Dev Done. Tasks in Dev Done are considered provisionally complete. In a regular rhythm, I revisit the tasks in Dev Done and consider their future. Either they have generated further tasks I couldn't foresee, which go into the backlog. Or they require further development that I couldn't foresee, so they stay in this column. Or they are fully completed, in which case they enter Done.
 
 This Kanban style of working is very visual and tactile, and I found it worked well on the previous assignment.
 
