@@ -65,6 +65,8 @@ As an [open-source project][2], Postgres doesn't get the support of something li
 
 Finally, some people have found that Postgres can be more resource-intensive than MySQL or other RDBMS. I also think the limited scope helps with this drawback.
 
+<div style="page-break-after: always"></div>
+
 # R4 Identify and discuss the key functionalities and benefits of an ORM
 
 ## Functionalities
@@ -89,6 +91,8 @@ Another key benefit is **native language**. Writing SQL is an additional overhea
 Finally, with modern tooling like an IDE, using an ORM gives us additional **safety**. We can use autocompletion on database classes and fields, eliminating accidental bugs or references to non-existent entities.
 
 To turn the tables for a little, though, some developers swear off ORMs as an unneeded overhead, and instead reach for "query builders". These give you the benefit of stepping away from writing SQL yourself, but without going towards a full object model as used by ORMs.
+
+<div style="page-break-after: always"></div>
 
 # R5 Document all endpoints for your API
 
@@ -140,6 +144,8 @@ None
 | `401`     | `application/json` | `{"error": "Username or password incorrect"}` |
 
 ---
+
+<div style="page-break-after: always"></div>
 
 ## Plants
 
@@ -208,6 +214,8 @@ None
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `409`     | `application/json` | `{"error":"Plant by that name already exists", "resource":<plant_id>}`                                                                                                                                                                     |
 
+<div style="page-break-after: always"></div>
+
 ### PUT
 
 <code><b>/plants/{plant_id}/</b></code> &mdash; If a user is an expert, updates a plant. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.** This particular route is further protected by authorization - if a user is not an expert, they will not have the right credentials to call this endpoint.
@@ -259,6 +267,8 @@ None
 | `404`     | `application/json` | `{"error":"plant_id does not exist"}`                                                                                                                                                                                                      |
 
 ---
+
+<div style="page-break-after: always"></div>
 
 ## Gardens
 
@@ -327,7 +337,7 @@ None
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 
----
+<div style="page-break-after: always"></div>
 
 ## GardenPlants
 
@@ -335,7 +345,7 @@ None
 
 ### GET
 
-<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Gets all plants in a garden associated with a current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**.
+<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Gets all plants in a garden associated with a current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**
 
 #### **Parameters**
 
@@ -355,7 +365,7 @@ None
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 
-<code><b>/gardenplants/{garden_id}/{garden_plant_id}></b></code> &mdash; Gets a single plant in a garden associated with a current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**.
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}></b></code> &mdash; Gets a single plant in a garden associated with a current user. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**
 
 #### **Parameters**
 
@@ -377,9 +387,11 @@ None
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 | `404`     | `application/json` | `{"error":"garden_plant does not exist in this garden"}`                                                                                                                                                                                   |
 
+<div style="page-break-after: always"></div>
+
 ### POST
 
-<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Creates a new plant in a garden. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes..**
+<code><b>/gardenplants/{garden_id}/</b></code> &mdash; Creates a new plant in a garden. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**
 
 #### **Parameters**
 
@@ -408,7 +420,7 @@ None
 
 ### PUT
 
-<code><b>/gardenplants/{garden_id}/{garden_plant_id}</b></code> &mdash; Updates an existing plant in a garden. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes..**
+<code><b>/gardenplants/{garden_id}/{garden_plant_id}</b></code> &mdash; Updates an existing plant in a garden. **This endpoint requires a valid JWT access token, as issued by the `/auth/register` or `/auth/login` routes.**
 
 #### **Parameters**
 
@@ -430,11 +442,13 @@ None
 
 | http code | content-type       | response                                                                                                                                                                                                                                   |
 | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `200`     | `application/json` | `{"garden_id": 3,"garden_plants": [],"creation_date": "2020-02-02","user_id": 2,"garden_type": "terrarium"}]`                                                                                                                              |
+| `200`     | `application/json` | `{"healthiness": 7,"placement": "sunshine","garden_id": 3,"plant_id": 2,"garden_plant_id": 8,"last_watered": "2019-11-01"}`                                                                                                                |
 | `400`     | `application/json` | `{"error": "error message"}`                                                                                                                                                                                                               |
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 | `404`     | `application/json` | `{"error":"garden_plant does not exist in this garden"}`                                                                                                                                                                                   |
+
+<div style="page-break-after: always"></div>
 
 ### DELETE
 
@@ -459,6 +473,8 @@ None
 | `401`     | `application/json` | `{"error":"The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required."}` |
 | `404`     | `application/json` | `{"error":"garden_id does not exist"}`                                                                                                                                                                                                     |
 | `404`     | `application/json` | `{"error":"garden_plant does not exist in this garden"}`                                                                                                                                                                                   |
+
+<div style="page-break-after: always"></div>
 
 # R6 An ERD for your app
 
@@ -485,6 +501,8 @@ As a Flask application, my app will draw on various third-party libraries to fun
 - psycopg2, a Python database adapter for Postgres
 - python-dotenv, enabling me to use environmental variables in Flask config
 - SQLAlchemy, an ORM
+
+<div style="page-break-after: always"></div>
 
 # R8 Describe your projects models in terms of the relationships they have with each other
 
@@ -591,6 +609,8 @@ When a Plant is deleted, we see a similar cascade to remove all associated Garde
 
 I believe that my model code accurately reflects my ERD. The most important things I found when creating this model was thinking carefully about the relationships and how they should be modelled.
 
+<div style="page-break-after: always"></div>
+
 # R9 Discuss the database relations to be implemented in your application
 
 There are four main relations in this project. Users, gardens, plants, and the table that connects a Garden with the Plants inside it (called gardenplants).
@@ -621,6 +641,6 @@ For full details, see my [Garden API Trello](https://trello.com/b/C1nWwPAe/t2a2-
 
 # References
 
-- [1]: https://www.guru99.com/introduction-postgresql.html 'Peterson, R. (2019). What is PostgreSQL? Introduction, History, Features, Advantages. [online] Guru99.com.'
-- [2]: https://www.aalpha.net/blog/pros-and-cons-of-using-postgresql-for-application-development/ 'Dhruv, S. (2019). Pros and Cons of using PostgreSQL for Application Development. [online] Aalpha.'
+- [1]: https://www.guru99.com/introduction-postgresql.html Peterson, R. (2019). What is PostgreSQL? Introduction, History, Features, Advantages. [online] Guru99.com.
+- [2]: https://www.aalpha.net/blog/pros-and-cons-of-using-postgresql-for-application-development/ Dhruv, S. (2019). Pros and Cons of using PostgreSQL for Application Development. [online] Aalpha.
   ‌
